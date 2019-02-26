@@ -1,0 +1,815 @@
+<!-- code for header begins here -->
+<div id="header" class="container-fluid">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="d-flex flex-row align-items-center">
+          <div class="p-2 bd-highlight">
+            <img src="images/poke_icon.png" style="width:50px">
+          </div>
+
+          <div class="p-2 bd-highlight">
+            <strong style="padding-left:10px;" class="blk" >Pokedex</strong> </br >
+            <span style="padding-left:10px;" class="dk-blue">by Austin Henry and Jordan Sturtz</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-6">
+        <div class="d-flex flex-row align-items-center justify-content-end">
+          <div class="p-2 bd-highlight">
+            <ul class="nav">
+              <li class="nav-item">
+                <a class="nav-link blk" href="/"><strong>Index</strong></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link blk" href="/create"><strong>Create</strong></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active blk" href="/read"><strong>Read</strong></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link blk" href="/update"><strong>Update</strong></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link blk" href="/delete"><strong>Delete</strong></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container"> 
+    <div class="row align-items-center">
+      <div class="col-sm-12 text-center">
+        <h1 class="blk"> Update </h1> 
+        <div class="dk-blue"> Change something in the database </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- code for body goes here -->
+
+<!-- controls which add form to use-->
+<div class="container">
+  <div class="row">
+    <div class="col-sm-4">
+      <button type="button" class="btn btn-secondary" id="btn-poke"> Pokemon </button>
+    </div>
+    <div class="col-sm-4">
+      <button type="button" class="btn btn-secondary"id="btn-type"> Types </button>
+    </div>
+    <div class="col-sm-4">
+      <button type="button" class="btn btn-secondary"id="btn-location"> Locations </button>
+    </div>
+  </div>
+</div>
+
+<!-- html for each pokemon looks like this -->
+<div id="container-poke" class="container poke-list change-form">
+
+  <!-- Charizard example starts here-->
+  <div class="row striped poke-display">
+
+    <!-- Name, picture, and types go here-->
+    <div class="col-sm-3">
+      <span class="poke-header"> Charizard </span>
+      <img class= "img-fluid" src="images/charizard.png" style="width:250px">
+      <span class="type-fire"> Fire </span>
+    </div>
+
+    <!-- Statistics and Evolutions here-->
+    <div class="col-sm-3">
+      <span class="poke-header"> Statistics </span>
+      <ul>
+        <li> Attack: 10 </li>
+        <li> Defense: 20 </li>
+        <li> Health: 30 </li>
+        <li> Evolves from </li>
+        <li> Evolves to </li>
+      </ul>
+    </div>
+
+    <!-- Moves go here-->
+    <div class="col-sm-3">
+      <span class="poke-header"> Moves </span>
+      <ul>
+        <li> Burn -- Innate </li>
+        <li> Incinerate -- Lvl 10 </li>
+      </ul>
+
+    </div>
+
+    <!-- Locations go here-->
+    <div class="col-sm-3">
+      <span class="poke-header"> Locations </span>
+      <ul>
+        <li> Volcano Land</li>
+      </ul>
+      <button class="btn btn-primary toggle-on">Change</button>
+    </div>
+  </div>
+  
+  <!-- form for changing charizard -->
+  <div class="container add-form" style="display:none;">
+    <form>
+      <fieldset> <legend> Change: </legend>
+
+        <div class="row">
+          <!-- Stats specific to pokemon here -->
+          <div class="col-sm-3">
+            <h3> Stats </h3>
+            <div class="form-group">
+              <label for="inp-name"> Name </label>
+              <input class="form-control" placeholder="Charizard">
+              <label for="inp-health"> Health </label>
+              <input class="form-control" placeholder="100">
+              <label for="inp-attack"> Attack </label>
+              <input class="form-control" placeholder="20">
+              <label for="inp-defense"> Defense </label>
+              <input class="form-control" placeholder="15">
+              <label for="inp-speed"> Speed </label>
+              <input class="form-control" placeholder="30">
+            </div>
+          </div>
+
+          <!-- Choose Types here-->
+          <div class="col-sm-3">
+            <h3> Types</h3>
+            <div class="form-check">
+              <label class="form-check-label"> 
+                <input class="form-check-input" type="checkbox" value=""> 
+                  Grass
+              </label>
+            </div>
+            <div class="form-check">
+              <label class="form-check-label"> 
+                <input class="form-check-input" type="checkbox" value=""> 
+                  Fire
+              </label>
+            </div>
+            <div class="form-check">
+              <label class="form-check-label"> 
+                <input class="form-check-input" type="checkbox" value=""> 
+                  Water
+              </label>
+            </div>
+          </div>
+
+          <!-- Choose locations here-->
+          <div class="col-sm-3">
+            <h3> Locations</h3>
+            <div class="form-check">
+              <label class="form-check-label"> 
+                <input class="form-check-input" type="checkbox" value=""> 
+                  Woods
+              </label>
+            </div>
+            <div class="form-check">
+              <label class="form-check-label"> 
+                <input class="form-check-input" type="checkbox" value=""> 
+                  Ocean
+              </label>
+            </div>
+            <div class="form-check">
+              <label class="form-check-label"> 
+                <input class="form-check-input" type="checkbox" value=""> 
+                  Volcano
+              </label>
+            </div>
+          </div>
+
+          <!-- Choose Moves here-->
+          <div class="col-sm-3">
+            <h3> Moves: </h3>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col"> Name </th>
+                  <th scope="col"> Lvl </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <div class="form-group">
+                      <input class="form-control" placeholder="10">
+                    </div>
+                  </td>
+                  <td>
+                    <div class = "dropdown">
+                      <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Choose Move
+                      </button>
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item"> Incinerate </span>
+                        <a class="dropdown-item"> Squirt </span>
+                        <a class="dropdown-item"> Slash </span>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <button class="btn btn-primary"> Add Move </button>
+          </div>
+        </div>
+
+      <!-- Evolutions -->
+      <div class="row">
+        <div class="col-sm-6">
+          Evolves From: 
+          <div class = "dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Choose Pokemon
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item"> Squirtle </a>
+              <a class="dropdown-item"> Ryan Reynolds </a>
+              <a class="dropdown-item"> None </a>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          Evolves To: 
+          <div class = "dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Choose Pokemon
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item"> Squirtle </a>
+              <a class="dropdown-item"> Ryan Reynolds </a>
+              <a class="dropdown-item"> None </a>
+            </div>
+          </div>
+        </div>
+      </div>
+        <!-- Type description here -->
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="form-group">
+              <label for='poke-description'>Description of the Pokemon:</label>
+              <textarea class="form-control" style='min-width:100%' ></textarea> 
+            </div>
+          </div>
+        </div>
+
+        <!-- Upload Image Here -->
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="custom-file">
+              <input type="file" accept=".jpg, .png" class="custom-file-input" > 
+              <label class="custom-file-label" for="customFile">Choose file</label>
+            </div>
+          </div>
+        </div>
+    
+        <!-- Submit button -->
+        <div class="row">
+          <div class="col-sm-1">
+            <button type="submit" class="btn btn-success toggle-off" >
+              Submit
+            </button>
+          </div>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+
+  <!-- Sqirtle example starts here-->
+  <div class="row striped">
+
+    <!-- Name, picture, and types go here-->
+    <div class="col-sm-3">
+      <span class="poke-header"> Squirtle </span>
+      <img class= "img-fluid" src="images/squirtle.png" style="width:250px">
+      <span class="type-water"> Water </span>
+
+    </div>
+
+    <!-- Statistics and Evolutions here-->
+    <div class="col-sm-3">
+      <span class="poke-header"> Statistics </span>
+      <ul>
+        <li> Attack: 15 </li>
+        <li> Defense: 20 </li>
+        <li> Health: 20 </li>
+        <li> Evolves from </li>
+        <li> Evolves to </li>
+      </ul>
+    </div>
+
+    <!-- Moves go here-->
+    <div class="col-sm-3">
+      <span class="poke-header"> Moves </span>
+      <ul>
+        <li> Squirt -- Innate </li>
+        <li> Le Squirt -- Lvl 10 </li>
+      </ul>
+
+    </div>
+
+    <!-- Locations go here-->
+    <div class="col-sm-3">
+      <span class="poke-header"> Locations </span>
+      <ul>
+        <li> Water Land</li>
+      </ul>
+      <button class="btn btn-primary toggle-on">Change</button>
+    </div>
+  </div>
+
+  <!-- form for changing pokemon -->
+  <div class="container add-form" style="display:none;">
+    <form>
+      <fieldset> <legend> Change: </legend>
+
+        <div class="row">
+          <!-- Stats specific to pokemon here -->
+          <div class="col-sm-3">
+            <h3> Stats </h3>
+            <div class="form-group">
+              <label for="inp-name"> Name </label>
+              <input class="form-control" placeholder="Squirtle">
+              <label for="inp-health"> Health </label>
+              <input class="form-control" placeholder="20">
+              <label for="inp-attack"> Attack </label>
+              <input class="form-control" placeholder="15">
+              <label for="inp-defense"> Defense </label>
+              <input class="form-control" placeholder="20">
+              <label for="inp-speed"> Speed </label>
+              <input class="form-control" placeholder="10">
+            </div>
+          </div>
+
+          <!-- Choose Types here-->
+          <div class="col-sm-3">
+            <h3> Types</h3>
+            <div class="form-check">
+              <label class="form-check-label"> 
+                <input class="form-check-input" type="checkbox" value=""> 
+                  Grass
+              </label>
+            </div>
+            <div class="form-check">
+              <label class="form-check-label"> 
+                <input class="form-check-input" type="checkbox" value=""> 
+                  Fire
+              </label>
+            </div>
+            <div class="form-check">
+              <label class="form-check-label"> 
+                <input class="form-check-input" type="checkbox" value=""> 
+                  Water
+              </label>
+            </div>
+          </div>
+
+          <!-- Choose locations here-->
+          <div class="col-sm-3">
+            <h3> Locations</h3>
+            <div class="form-check">
+              <label class="form-check-label"> 
+                <input class="form-check-input" type="checkbox" value=""> 
+                  Woods
+              </label>
+            </div>
+            <div class="form-check">
+              <label class="form-check-label"> 
+                <input class="form-check-input" type="checkbox" value=""> 
+                  Ocean
+              </label>
+            </div>
+            <div class="form-check">
+              <label class="form-check-label"> 
+                <input class="form-check-input" type="checkbox" value=""> 
+                  Volcano
+              </label>
+            </div>
+          </div>
+
+          <!-- Choose Moves here-->
+          <div class="col-sm-3">
+            <h3> Moves: </h3>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col"> Name </th>
+                  <th scope="col"> Lvl </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <div class="form-group">
+                      <input class="form-control" placeholder="10">
+                    </div>
+                  </td>
+                  <td>
+                    <div class = "dropdown">
+                      <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Choose Move
+                      </button>
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item"> Incinerate </span>
+                        <a class="dropdown-item"> Squirt </span>
+                        <a class="dropdown-item"> Slash </span>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <button class="btn btn-primary"> Add Move </button>
+          </div>
+        </div>
+
+        <!-- Evolutions -->
+        <div class="row">
+          <div class="col-sm-6">
+            Evolves From: 
+            <div class = "dropdown">
+              <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Choose Pokemon
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item"> Squirtle </a>
+                <a class="dropdown-item"> Ryan Reynolds </a>
+                <a class="dropdown-item"> None </a>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            Evolves To: 
+            <div class = "dropdown">
+              <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Choose Pokemon
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item"> Squirtle </a>
+                <a class="dropdown-item"> Ryan Reynolds </a>
+                <a class="dropdown-item"> None </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Type description here -->
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="form-group">
+              <label for='poke-description'>Description of the Pokemon:</label>
+              <textarea class="form-control" style='min-width:100%' ></textarea> 
+            </div>
+          </div>
+        </div>
+
+        <!-- Upload Image Here -->
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="custom-file">
+              <input type="file" accept=".jpg, .png" class="custom-file-input" > 
+              <label class="custom-file-label" for="customFile">Choose file</label>
+            </div>
+          </div>
+        </div>
+    
+        <!-- Submit button -->
+        <div class="row">
+          <div class="col-sm-1">
+            <button type="submit" class="btn btn-success toggle-off" >
+              Submit
+            </button>
+          </div>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+
+  <!-- Pikachu example starts here-->
+  <div class="row striped">
+
+    <!-- Name, picture, and types go here-->
+    <div class="col-sm-3">
+      <span class="poke-header"> Ryan Reynolds </span>
+      <img class= "img-fluid" src="images/pikachu.png" style="width:250px">
+      <span class="type-lighting"> Lighting </span>
+    </div>
+
+    <!-- Statistics and Evolutions here-->
+    <div class="col-sm-3">
+      <span class="poke-header"> Statistics </span>
+      <ul>
+        <li> Attack: 10000 </li>
+        <li> Defense: 20000 </li>
+        <li> Health: 30000 </li>
+        <li> Evolves from Deadpool</li>
+        <li> Evolves to PikaPool </li>
+      </ul>
+    </div>
+
+    <!-- Moves go here-->
+    <div class="col-sm-3">
+      <span class="poke-header"> Moves </span>
+      <ul>
+        <li> Pika! -- Innate </li>
+        <li> Pika Pika! -- Lvl 10 </li>
+      </ul>
+
+    </div>
+
+    <!-- Locations go here-->
+    <div class="col-sm-3">
+      <span class="poke-header"> Locations </span>
+      <ul>
+        <li> Hollywood </li>
+      </ul>
+      <button class="btn btn-primary toggle-on">Change</button>
+    </div>
+  </div>
+
+  <!-- form for changing pokemon -->
+  <div class="container add-form" style="display:none;">
+    <form>
+      <fieldset> <legend> Change: </legend>
+
+        <div class="row">
+          <!-- Stats specific to pokemon here -->
+          <div class="col-sm-3">
+            <h3> Stats </h3>
+            <div class="form-group">
+              <label for="inp-name"> Name </label>
+              <input class="form-control" placeholder="Ryan Reynolds">
+              <label for="inp-health"> Health </label>
+              <input class="form-control" placeholder="10000">
+              <label for="inp-attack"> Attack </label>
+              <input class="form-control" placeholder="20000">
+              <label for="inp-defense"> Defense </label>
+              <input class="form-control" placeholder="30000">
+              <label for="inp-speed"> Speed </label>
+              <input class="form-control" placeholder="10000">
+            </div>
+          </div>
+
+          <!-- Choose Types here-->
+          <div class="col-sm-3">
+            <h3> Types</h3>
+            <div class="form-check">
+              <label class="form-check-label"> 
+                <input class="form-check-input" type="checkbox" value=""> 
+                  Grass
+              </label>
+            </div>
+            <div class="form-check">
+              <label class="form-check-label"> 
+                <input class="form-check-input" type="checkbox" value=""> 
+                  Fire
+              </label>
+            </div>
+            <div class="form-check">
+              <label class="form-check-label"> 
+                <input class="form-check-input" type="checkbox" value=""> 
+                  Water
+              </label>
+            </div>
+          </div>
+
+          <!-- Choose locations here-->
+          <div class="col-sm-3">
+            <h3> Locations</h3>
+            <div class="form-check">
+              <label class="form-check-label"> 
+                <input class="form-check-input" type="checkbox" value=""> 
+                  Woods
+              </label>
+            </div>
+            <div class="form-check">
+              <label class="form-check-label"> 
+                <input class="form-check-input" type="checkbox" value=""> 
+                  Ocean
+              </label>
+            </div>
+            <div class="form-check">
+              <label class="form-check-label"> 
+                <input class="form-check-input" type="checkbox" value=""> 
+                  Volcano
+              </label>
+            </div>
+          </div>
+
+          <!-- Choose Moves here-->
+          <div class="col-sm-3">
+            <h3> Moves: </h3>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col"> Name </th>
+                  <th scope="col"> Lvl </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <div class="form-group">
+                      <input class="form-control" placeholder="10">
+                    </div>
+                  </td>
+                  <td>
+                    <div class = "dropdown">
+                      <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Choose Move
+                      </button>
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item"> Incinerate </span>
+                        <a class="dropdown-item"> Squirt </span>
+                        <a class="dropdown-item"> Slash </span>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <button class="btn btn-primary"> Add Move </button>
+          </div>
+        </div>
+
+        <!-- Evolutions -->
+        <div class="row">
+          <div class="col-sm-6">
+            Evolves From: 
+            <div class = "dropdown">
+              <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Choose Pokemon
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item"> Squirtle </a>
+                <a class="dropdown-item"> Ryan Reynolds </a>
+                <a class="dropdown-item"> None </a>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            Evolves To: 
+            <div class = "dropdown">
+              <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Choose Pokemon
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item"> Squirtle </a>
+                <a class="dropdown-item"> Ryan Reynolds </a>
+                <a class="dropdown-item"> None </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Type description here -->
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="form-group">
+              <label for='poke-description'>Description of the Pokemon:</label>
+              <textarea class="form-control" style='min-width:100%' ></textarea> 
+            </div>
+          </div>
+        </div>
+
+        <!-- Upload Image Here -->
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="custom-file">
+              <input type="file" accept=".jpg, .png" class="custom-file-input" > 
+              <label class="custom-file-label" for="customFile">Choose file</label>
+            </div>
+          </div>
+        </div>
+    
+        <!-- Submit button -->
+        <div class="row">
+          <div class="col-sm-1">
+            <button type="submit" class="btn btn-success toggle-off" >
+              Submit
+            </button>
+          </div>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+</div> 
+
+<!-- Type information here -->
+<div id="container-type" class="container change-form"style="display:none;">
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Weak Against</th>
+        <th scope="col">Strong Against</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">1</th>
+        <td>Grass</td>
+        <td>Fire</td>
+        <td>Flying</td>
+        <td>
+          <button class="btn btn-primary"> Change </button>
+        </td>
+      </tr>
+      <tr>
+        <th scope="row">2</th>
+        <td>Fire</td>
+        <td>Water</td>
+        <td>Grass</td>
+        <td>
+          <button class="btn btn-primary"> Change </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Location information here -->
+<div id="container-location" class="container change-form" style="display:none;">
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Description </th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">1</th>
+        <td>Grassy Knoll</td>
+        <td>The area is grassy bro. So grassy. There's like, grass everywhere
+        brah. </td>
+        <td>
+          <button class="btn btn-primary"> Change </button>
+        </td>
+      </tr>
+      <tr>
+        <th scope="row">2</th>
+        <td>Firey Knoll</td>
+        <td>The area is firey bro. So firey. There's like, fire everywhere
+        brah. </td>
+        <td>
+          <button class="btn btn-primary"> Change </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- code for footer goes here -->
+<div id="footer" class="container-fluid">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="single-post-content-wrapper p-3">
+          <span class="wht" > This website represents a joint project between 
+                    Austin Henry and Jordan Sturtz to build a 
+                    full-stack application. The front-end utilizes
+                    bootstrap and handlebars. The server runs on 
+                    node.js. The database is mysql. 
+                    </span>
+        </div>
+      </div>
+      <div class="w-100"></div>
+      <div class="col-sm-12">
+          <div class="d-flex flex-row align-items-center justify-content-center">
+            <div class="p-2 bd-highlight">
+              <ul class="nav">
+                <li class="nav-item">
+                  <a class="nav-link wht" href="/"><strong>Index</strong></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link wht" href="create"><strong>Create</strong></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link wht" href="read"><strong>Read</strong></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link active wht" href="update"><strong>Update</strong></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link wht" href="delete"><strong>Delete</strong></a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="js/update.js"></script>

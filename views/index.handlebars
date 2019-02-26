@@ -1,0 +1,141 @@
+<!-- code for header begins here -->
+<div id="header" class="container-fluid">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="d-flex flex-row align-items-center">
+          <div class="p-2 bd-highlight">
+            <img src="images/poke_icon.png" style="width:50px">
+          </div>
+
+          <div class="p-2 bd-highlight">
+            <strong style="padding-left:10px;" class="blk" >Pokedex</strong> </br >
+            <span style="padding-left:10px;" class="dk-blue">by Austin Henry and Jordan Sturtz</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-6">
+        <div class="d-flex flex-row align-items-center justify-content-end">
+          <div class="p-2 bd-highlight">
+            <ul class="nav">
+              <li class="nav-item">
+                <a class="nav-link blk" href="/"><strong>Index</strong></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link blk" href="/create"><strong>Create</strong></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active blk" href="/read"><strong>Read</strong></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link blk" href="/update"><strong>Update</strong></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link blk" href="/delete"><strong>Delete</strong></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container"> 
+    <div class="row align-items-center">
+      <div class="col-sm-12 text-center">
+        <h1 class="blk"> Index </h1> 
+        <div class="dk-blue"> Description of the website </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- code for body goes here -->
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+      <h3> Description </h3>
+      <span> This website represents a joint project between Austin Henry
+      and Jordan Sturtz to represent a pokedex database interface. It
+      has basic CRUD functionality. The subpages are as follows:</span> <br>
+      <ul class="list-group">
+        <li class="list-group-item"> 
+          <a href="/create"><strong>Create</strong></a> <br>
+          This link provides the user with the ability to add new entries to 
+          the database. There are four entities that can be added: pokemon, 
+          types, moves, and locations. Since pokemon must be associated
+          with these other three entities, these entities must be added before
+          pokemon can be added.
+        </li>
+        <li class="list-group-item"> 
+          <a href="/read"><strong>Read</strong></a> <br>
+          This link provides the user with the ability to read the existing
+          data in the database. It will display them according to entity
+          type: pokemon, type, moves, and location. In addition, it will
+          display pokemon together with their types, their moves, and the
+          locations in which they can be found. 
+        </li>
+        <li class="list-group-item"> 
+          <a href="/update"><strong>Update</strong></a> <br>
+          This link provides the user with the ability to update existing
+          entries. As of right now, the update buttons have not been 
+          implemented. This is because such code will become superfluous
+          when integrated with the backend. 
+        </li>
+        <li class="list-group-item"> 
+          <a href="/delete"><strong>Delete</strong></a> <br>
+          This link provides the user with the ability to delete
+          entries. As of right now, the delete buttons have not been 
+          implemented. This is because such code will become superfluous
+          when integrated with the backend. 
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- code for footer goes here -->
+<div id="footer" class="container-fluid">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="single-post-content-wrapper p-3">
+          <span class="wht" > This website represents a joint project between 
+                    Austin Henry and Jordan Sturtz to build a 
+                    full-stack application. The front-end utilizes
+                    bootstrap and handlebars. The server runs on 
+                    node.js. The database is mysql. 
+                    </span>
+        </div>
+      </div>
+      <div class="w-100"></div>
+      <div class="col-sm-12">
+          <div class="d-flex flex-row align-items-center justify-content-center">
+            <div class="p-2 bd-highlight">
+              <ul class="nav">
+                <li class="nav-item">
+                  <a class="nav-link wht" href="/"><strong>Index</strong></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link wht" href="create"><strong>Create</strong></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link wht" href="read"><strong>Read</strong></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link active wht" href="update"><strong>Update</strong></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link wht" href="delete"><strong>Delete</strong></a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="js/read.js"></script>

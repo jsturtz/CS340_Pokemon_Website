@@ -16,26 +16,30 @@ app.use(bodyParser.json());
 // more boiler plate stuff
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
-app.set('port', 3291);
+app.set('port', 3191);
 
 // makes "public" the location to serve static files (images, css, html)
 app.use(express.static('public', { extensions: ['html'] }));
 
-// portfolio is the home page
+// read is the home page
 app.get('/',function(req,res){
-    res.render('portfolio');
+    res.render('index');
 });
 
-app.get('/',function(req,res){
-    res.render('portfolio');
+app.get('/create',function(req,res){
+    res.render('create');
 });
 
-app.get('/about',function(req,res){
-    res.render('about');
+app.get('/read',function(req,res){
+    res.render('read');
 });
 
-app.get('/contact',function(req,res){
-    res.render('contact');
+app.get('/update',function(req,res){
+    res.render('update');
+});
+
+app.get('/delete',function(req,res){
+    res.render('delete');
 });
 
 // app.post('/contact', function(req, res) {
@@ -44,19 +48,19 @@ app.get('/contact',function(req,res){
 //     res.redirect('/contact');
 // });
 
-app.post('/contact', function(req, res) {
+/* app.post('/contact', function(req, res) { */
 
-    fs.readFile("emails.txt", "utf8", function(err, data) {
-        var jsonData = JSON.parse(data);
-        jsonData['emails'].push(req.body);
-        fs.writeFile("emails.txt", JSON.stringify(jsonData), function(err) {});
-    });
-    res.redirect('/');
-});
+/*     fs.readFile("emails.txt", "utf8", function(err, data) { */
+/*         var jsonData = JSON.parse(data); */
+/*         jsonData['emails'].push(req.body); */
+/*         fs.writeFile("emails.txt", JSON.stringify(jsonData), function(err) {}); */
+/*     }); */
+/*     res.redirect('/'); */
+/* }); */
 
-app.get('/resume',function(req,res){
-    res.render('resume');
-});
+/* app.get('/resume',function(req,res){ */
+/*     res.render('resume'); */
+/* }); */
 
 app.use(function(req,res){
     res.status(404);
