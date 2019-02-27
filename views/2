@@ -1,0 +1,368 @@
+<!-- code for header begins here -->
+<div id="header" class="container-fluid">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="d-flex flex-row align-items-center">
+          <div class="p-2 bd-highlight">
+            <img src="images/poke_icon.png" style="width:50px">
+          </div>
+
+          <div class="p-2 bd-highlight">
+            <strong style="padding-left:10px;" class="blk" >Pokedex</strong> </br >
+            <span style="padding-left:10px;" class="dk-blue">by Austin Henry and Jordan Sturtz</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-6">
+        <div class="d-flex flex-row align-items-center justify-content-end">
+          <div class="p-2 bd-highlight">
+            <ul class="nav">
+              <li class="nav-item">
+                <a class="nav-link blk" href="/"><strong>Index</strong></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link blk" href="/create"><strong>Create</strong></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active blk" href="/read"><strong>Read</strong></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link blk" href="/update"><strong>Update</strong></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link blk" href="/delete"><strong>Delete</strong></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container"> 
+    <div class="row align-items-center">
+      <div class="col-sm-12 text-center">
+        <h1 class="blk"> Create </h1> 
+        <div class="dk-blue"> Add something to the database</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- controls which add form to use-->
+<div class="container">
+  <div class="row">
+    <div class="col-sm-3">
+      <button type="button" class="btn btn-secondary" id="btn-poke"> Pokemon </button>
+    </div>
+    <div class="col-sm-3">
+      <button type="button" class="btn btn-secondary"id="btn-type"> Types </button>
+    </div>
+    <div class="col-sm-3">
+      <button type="button" class="btn btn-secondary"id="btn-move"> Moves </button>
+    </div>
+    <div class="col-sm-3">
+      <button type="button" class="btn btn-secondary"id="btn-location"> Locations </button>
+    </div>
+  </div>
+</div>
+
+<!-- form for changing pokemon -->
+<div id="container-poke" class="container add-form">
+  <form>
+    <fieldset> <legend> Add Pokemon: </legend>
+
+      <div class="row">
+        <!-- Stats specific fo pokemon here -->
+        <div class="col-sm-3">
+          <h3> Stats </h3>
+          <div class="form-group">
+            <label for="inp-name"> Name </label>
+            <input class="form-control" id="inp-name" placeholder="Charizard">
+            <label for="inp-health"> Health </label>
+            <input class="form-control" id="inp-health" placeholder="100">
+            <label for="inp-attack"> Attack </label>
+            <input class="form-control" id="inp-attack" placeholder="20">
+            <label for="inp-defense"> Defense </label>
+            <input class="form-control" id="inp-defense" placeholder="15">
+            <label for="inp-speed"> Speed </label>
+            <input class="form-control" id="inp-speed" placeholder="30">
+          </div>
+        </div>
+
+        <!-- Choose Types here-->
+        <div class="col-sm-3">
+          <h3> Types</h3>
+          <div class="form-check">
+            <label class="form-check-label"> 
+              <input class="form-check-input" type="checkbox" value=""> 
+                Grass
+            </label>
+          </div>
+          <div class="form-check">
+            <label class="form-check-label"> 
+              <input class="form-check-input" type="checkbox" value=""> 
+                Fire
+            </label>
+          </div>
+          <div class="form-check">
+            <label class="form-check-label"> 
+              <input class="form-check-input" type="checkbox" value=""> 
+                Water
+            </label>
+          </div>
+        </div>
+
+        <!-- Choose locations here-->
+        <div class="col-sm-3">
+          <h3> Locations</h3>
+          <div class="form-check">
+            <label class="form-check-label"> 
+              <input class="form-check-input" type="checkbox" value=""> 
+                Woods
+            </label>
+          </div>
+          <div class="form-check">
+            <label class="form-check-label"> 
+              <input class="form-check-input" type="checkbox" value=""> 
+                Ocean
+            </label>
+          </div>
+          <div class="form-check">
+            <label class="form-check-label"> 
+              <input class="form-check-input" type="checkbox" value=""> 
+                Volcano
+            </label>
+          </div>
+        </div>
+
+        <!-- Choose Moves here-->
+        <div class="col-sm-3">
+          <h3> Moves: </h3>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col"> Name </th>
+                <th scope="col"> Lvl </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div class="form-group">
+                    <input class="form-control" placeholder="10">
+                  </div>
+                </td>
+                <td>
+                  <div class = "dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Choose Move
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      <a class="dropdown-item"> Incinerate </span>
+                      <a class="dropdown-item"> Squirt </span>
+                      <a class="dropdown-item"> Slash </span>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <button class="btn btn-primary"> Add Move </button>
+        </div>
+
+      </div>
+
+      <!-- Evolves From -->
+      <div class="row">
+        <div class="col-sm-6">
+          Evolves From: 
+          <div class = "dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Choose Pokemon
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item"> Squirtle </span>
+              <a class="dropdown-item"> Ryan Reynolds </span>
+              <a class="dropdown-item"> None </span>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          Evolves To: 
+          <div class = "dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Choose Pokemon
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item"> Squirtle </span>
+              <a class="dropdown-item"> Ryan Reynolds </span>
+              <a class="dropdown-item"> None </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Type description here -->
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="form-group">
+            <label for='poke-description'>Description of the Pokemon:</label>
+            <textarea class="form-control" style='min-width:100%' id='poke-description'></textarea> 
+          </div>
+        </div>
+      </div>
+
+      <!-- Upload Image Here -->
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="custom-file">
+            <input type="file" accept=".jpg, .png" class="custom-file-input" id="customFile"> 
+            <label class="custom-file-label" for="customFile">Choose picture file </label>
+          </div>
+        </div>
+      </div>
+    
+      <!-- Submit button -->
+      <div class="row">
+        <div class="col-sm-1">
+          <button type="submit" class="btn btn-success" id='poke-submit' >
+            Submit
+          </button>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+</div>
+
+<!-- form for adding type -->
+<div id="container-type" class="container add-form" style="display:none">
+  <div class="row">
+    <div class="col-sm-3">
+      <h3> Name </h3>
+      <div class="form-group">
+        <input class="form-control" placeholder="grass">
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <h3> Weak </h3>
+      <div class="form-group">
+        <input class="form-control" placeholder="fire">
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <h3> Strong </h3>
+      <div class="form-group">
+        <input class="form-control" placeholder="flying">
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Row and Submit buttons-->
+  <div class="row">
+    <div class="col-sm-2">
+      <button class="btn btn-primary" id="add-row-type" > Add Row </button>
+    </div>
+    <div class="col-sm-2">
+      <button class="btn btn-success"> Submit </button>
+    </div>
+  </div>
+</div>
+
+<!-- form for adding move -->
+<div id="container-move" class="container add-form" style="display:none">
+  <div class="row">
+    <div class="col-sm-3">
+      <h3> Name </h3>
+      <div class="form-group">
+        <input class="form-control" placeholder="incinerate">
+      </div>
+    </div>
+    <div class="col-sm-9">
+      <h3> Status Effect </h3>
+      <div class="form-group">
+        <input class="form-control" placeholder="Damage over time">
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Row and Submit buttons -->
+  <div class="row">
+    <div class="col-sm-2">
+      <button class="btn btn-primary" id="add-row-move" > Add Row </button>
+    </div>
+    <div class="col-sm-2">
+      <button class="btn btn-success"> Submit </button>
+    </div>
+  </div>
+</div>
+
+<!-- form for adding location -->
+<div id="container-location" class="container add-form" style="display:none">
+  <div class="row">
+    <div class="col-sm-3">
+      <h3> Name </h3>
+      <div class="form-group">
+        <input class="form-control" placeholder="incinerate">
+      </div>
+    </div>
+    <div class="col-sm-9">
+      <h3> Description </h3>
+      <div class="form-group">
+        <textarea class="form-control" style='min-width:100%' id='location-description'></textarea> 
+      </div>
+    </div>
+  </div>
+
+  <!-- Submit buttons -->
+  <div class="row">
+    <div class="col-sm-2">
+      <button class="btn btn-success"> Submit </button>
+    </div>
+  </div>
+</div>
+
+<!-- code for footer goes here -->
+<div id="footer" class="container-fluid">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="single-post-content-wrapper p-3">
+          <span class="wht" > This website represents a joint project between 
+                    Austin Henry and Jordan Sturtz to build a 
+                    full-stack application. The front-end utilizes
+                    bootstrap and handlebars. The server runs on 
+                    node.js. The database is mysql. 
+                    </span>
+        </div>
+      </div>
+      <div class="w-100"></div>
+      <div class="col-sm-12">
+          <div class="d-flex flex-row align-items-center justify-content-center">
+            <div class="p-2 bd-highlight">
+              <ul class="nav">
+                <li class="nav-item">
+                  <a class="nav-link active wht" href="Create"><strong>Create</strong></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link wht" href="/"><strong>Read</strong></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link wht" href="update"><strong>Update</strong></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link wht" href="delete"><strong>Delete</strong></a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- js files here -->
+<script src="js/create.js"></script>
