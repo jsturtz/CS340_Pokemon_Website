@@ -27,8 +27,8 @@ app.get('/',function(req,res){
 });
 
 app.get('/create',function(req,res){
-  getPageInfo(function(info) {
-    res.render('create', info);
+  getPageInfo(function(context) {
+    res.render('create', context);
   })
 });
 
@@ -47,6 +47,7 @@ app.post('/create', function(req, res) {
       break; 
 
     case "type-relation":
+
       addTypeRelation(
         req.body.name, 
         req.body.weak, 
@@ -88,6 +89,43 @@ function addType(name, callback) {
   });
 }
 
+function addTypeRelation(name, weak, strong, callback) {
+    var name_id = 'SELECT id FROM Types WHERE name = "' + name + '";'
+    var weak_id = 'SELECT id FROM Types WHERE name = "' + weak + '";'
+    var strong_id = 'SELECT id FROM Types WHERE name = "' + strong + '";';
+    
+    mysql.pool.query(name_id, function(err, rows, fields) {
+      if (err) throw "ERROR: " + err;
+      name_id = rows[0].id; 
+
+      mysql.pool.query(weak_id, function(err, rows, fields) {
+        if (err) throw "ERROR: " + err;
+        weak_id = rows[0].id; 
+
+        mysql.pool.query(strong_id, function(err, rows, fields) {
+          if (err) throw "ERROR: " + err;
+          strong_id = rows[0].id; 
+        
+          var weak_query = 
+              'INSERT INTO Types_Strength (weak_id, strong_id) ' +
+              'VALUES("' + weak_id + '", "' + name_id + '");';
+          console.log(weak_query);
+          mysql.pool.query(weak_query, function(err, rows, fields) {
+            if (err) throw "ERROR: " + err;
+
+            var strong_query = 
+                'INSERT INTO Types_Strength (weak_id, strong_id) ' +
+                'VALUES("' + name_id + '", "' + strong_id + '");'
+            console.log(strong_query);
+            mysql.pool.query(strong_query, function(err, rows, fields) {
+              if (err) throw "ERROR: " + err;
+            });
+          });
+        });
+      });
+    });
+}
+
 function getPageInfo(callback) {
   // builds sortString to add to mysql query. 
   
@@ -119,13 +157,15 @@ function getPageInfo(callback) {
     'INNER JOIN Evolutions e ON e.to_poke=f.id AND p.id=from_poke;';
   
   var typeStrength = 
-    'SELECT T.name, T1.strong_against, T2.weak_against FROM Types T ' + 
-    'INNER JOIN ( ' + 
-    'SELECT strong_id AS id, weak_id AS "strong_against" FROM Types_Strength ' + 
-    ') AS T1 ON T1.id = T.id  ' + 
-    'INNER JOIN ( ' + 
-    'SELECT weak_id AS id, strong_id AS "weak_against" FROM Types_Strength ' + 
-    ') AS T2 on T2.id = T.id;';
+    'SELECT T.name, w.name AS "weak_against", s.name AS "strong_against" FROM Types T ' +
+    'LEFT JOIN ( ' +
+    'SELECT strong_id AS id, weak_id AS "strong_against" FROM Types_Strength ' +
+    ') AS T1 ON T1.id = T.id ' +
+    'LEFT JOIN Types s ON T1.strong_against=s.id ' +
+    'LEFT JOIN ( ' +
+    'SELECT weak_id AS id, strong_id AS "weak_against" FROM Types_Strength ' +
+    ') AS T2 on T2.id = T.id ' +
+    'LEFT JOIN Types w ON T2.weak_against=w.id;';
 
   var locationInfo = "SELECT name, description FROM Locations;"
 

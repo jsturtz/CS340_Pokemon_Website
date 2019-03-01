@@ -46,7 +46,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
   }); 
 
   document.getElementById("submit-type-relation").addEventListener("click", function(event) {
+    console.log(document.getElementById("name-dropdown").value);
+    console.log(document.getElementById("weak-dropdown").value);
+    console.log(document.getElementById("strong-dropdown").value);
+    
     var payload = {
+      action: "type-relation", 
       name: document.getElementById("name-dropdown").value, 
       weak: document.getElementById("weak-dropdown").value, 
       strong: document.getElementById("strong-dropdown").value

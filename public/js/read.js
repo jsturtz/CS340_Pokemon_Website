@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 function dropDownBox() {
     document.getElementById("sortBtn").addEventListener("click", function(event) {
-var url = "/read?" + 
+        var url = "/read?" + 
             "col=" + document.getElementById("dropdown").value + 
             "&sortBy=" + document.getElementById("sortBy").value;
         console.log(url);

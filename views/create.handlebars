@@ -276,7 +276,7 @@
         <h3> Name </h3>
         <select id="name-dropdown" name="Name">
           {{#each types}}
-          <option value="" selected> {{this.name}} </option>
+            <option value="{{this.name}}"> {{this.name}} </option>
           {{/each}}
         </select> 
       </div>
@@ -284,7 +284,7 @@
         <h3> Weak </h3>
         <select id="weak-dropdown" name="Name">
           {{#each types}}
-          <option value="" selected> {{this.name}} </option>
+          <option value="{{this.name}}" > {{this.name}} </option>
           {{/each}}
         </select> 
       </div>
@@ -292,7 +292,7 @@
         <h3> Strong </h3>
         <select id="strong-dropdown" name="Name">
           {{#each types}}
-          <option value="" selected> {{this.name}} </option>
+          <option value="{{this.name}}" > {{this.name}} </option>
           {{/each}}
         </select> 
       </div>
