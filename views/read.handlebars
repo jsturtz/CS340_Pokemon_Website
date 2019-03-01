@@ -78,29 +78,28 @@
   <div class="row">
     <div class="col-sm-12">
       Sort by: 
-      <select name="category">
-       <option value="name">Name</option>
-       <option value="name">Attack</option>
-       <option value="name">Defense</option>
-       <option value="name">Health</option>
-       <option value="type">Type</option>
-       <option value="move">Move</option>
-       <option value="location">Location</option>
+      <select id="dropdown" name="category">
+       <option value="name" selected>Name</option>
+       <option value="attack">Attack</option>
+       <option value="defense">Defense</option>
+       <option value="health">Health</option>
+       <option value="speed">Speed</option>
+       <!-- <option value="type">Type</option> -->
+       <!-- <option value="move">Move</option> -->
+       <!-- <option value="location">Location</option> -->
       </select> 
+      <select id="sortBy" name="category">
+       <option value="ASC" selected>Ascending</option>
+       <option value="DESC">Descending</option>
+      </select> 
+      <button id="sortBtn" class="btn btn-primary">Sort</button>
     </div>
   </div>
   
   {{#each pokemon}}
   <div class="row striped">
-    <!-- Name, picture, and types go here-->
-    <div class="col-sm-3">
-      <span class="poke-header"> {{this.name}} </span>
-      <!---<img class= "img-fluid" src="images/charizard.png" style="width:250px">-->
-      <ul class="type-list">
-      {{#each types}}
-        <li> {{this}}</li>
-      {{/each}}
-      </ul>
+    <div class="col-sm-12">
+      <span class="poke-header"> <strong>{{this.name}}</strong> </span>
     </div>
 
     <!-- Statistics and Evolutions here-->
@@ -116,12 +115,23 @@
       </ul>
     </div>
 
+    <!-- Types go here-->
+    <div class="col-sm-3">
+      <!---<img class= "img-fluid" src="images/charizard.png" style="width:250px">-->
+      <span class="poke-header"> Types </span>
+      <ul class="type-list">
+      {{#each types}}
+        <li> {{this}}</li>
+      {{/each}}
+      </ul>
+    </div>
+
     <!-- Moves go here-->
     <div class="col-sm-3">
       <span class="poke-header"> Moves </span>
       <ul>
         {{#each moves}}
-          <li> {{this.name}} -- {{this.level}} </li>
+        <li> {{this.name}} -- {{this.level}} </li>
         {{/each}}
       </ul>
     </div>
@@ -153,8 +163,8 @@
       {{#each types}}
       <tr>
         <td> {{this.name}} </td>
-        <td> {{this.weak}} </td>
-        <td> {{this.strong}} </td>
+        <td> {{this.weak_against}} </td>
+        <td> {{this.strong_against}} </td>
       </tr>
       {{/each}}
     </tbody>

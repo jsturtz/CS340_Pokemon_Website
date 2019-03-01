@@ -1,6 +1,29 @@
 document.addEventListener("DOMContentLoaded", function(event) {
-    
-    // controls which form to display
+        
+    ctrlBtns();
+    dropDownBox();
+});
+
+function dropDownBox() {
+    document.getElementById("sortBtn").addEventListener("click", function(event) {
+var url = "/read?" + 
+            "col=" + document.getElementById("dropdown").value + 
+            "&sortBy=" + document.getElementById("sortBy").value;
+        console.log(url);
+        var req = new XMLHttpRequest();
+        req.open("GET", url, true);
+        // req.addEventListener("load", function(event) {
+        //     if (req.status >= 200 && req.status < 400) {
+
+        //     } else { throw "ERROR: " + req.status}
+        // });
+        req.send(null);
+    });
+}
+
+// controls which form to display
+function ctrlBtns() {
+
     document.getElementById("btn-poke").addEventListener("click", function(event) {
         let forms = document.getElementsByClassName("change-form");
         for (let i = 0; i < forms.length; i++) {
@@ -33,4 +56,4 @@ document.addEventListener("DOMContentLoaded", function(event) {
         }
         document.getElementById("container-location").style.display = "block";
     });
-});
+}

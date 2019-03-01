@@ -239,34 +239,70 @@
 
 <!-- form for adding type -->
 <div id="container-type" class="container add-form" style="display:none">
+  
+  <!-- btns control whether adding types or adding relations-->
   <div class="row">
-    <div class="col-sm-3">
-      <h3> Name </h3>
-      <div class="form-group">
-        <input class="form-control" placeholder="grass">
+    <div class="col-sm-6">
+      <button id="add-types-btn" class="btn btn-primary"> Add Types </button>
+    </div>
+    <div class="col-sm-6">
+      <button id="add-relations-btn" class="btn btn-primary"> Add Relations </button>
+    </div>
+  </div>
+
+  <!-- form for adding types themselves -->
+  <div id="add-type" class="container">
+    <div class="row">
+      <div class="col-sm-3">
+        <h3> Name </h3>
+        <div class="form-group">
+          <input id="type-input" class="form-control" placeholder="grass">
+        </div>
       </div>
     </div>
-    <div class="col-sm-3">
-      <h3> Weak </h3>
-      <div class="form-group">
-        <input class="form-control" placeholder="fire">
-      </div>
-    </div>
-    <div class="col-sm-3">
-      <h3> Strong </h3>
-      <div class="form-group">
-        <input class="form-control" placeholder="flying">
+
+    <!-- Add Row and Submit buttons-->
+    <div class="row">
+      <div class="col-sm-2">
+        <button id="submit-type" class="btn btn-success"> Submit </button>
       </div>
     </div>
   </div>
 
-  <!-- Add Row and Submit buttons-->
-  <div class="row">
-    <div class="col-sm-2">
-      <button class="btn btn-primary" id="add-row-type" > Add Row </button>
+  <!-- form for adding relations for types -->
+  <div id="add-type-relation" class="container" style="display:none;">
+    <div class="row">
+      <div class="col-sm-3">
+        <h3> Name </h3>
+        <select id="name-dropdown" name="Name">
+          {{#each types}}
+          <option value="" selected> {{this.name}} </option>
+          {{/each}}
+        </select> 
+      </div>
+      <div class="col-sm-3">
+        <h3> Weak </h3>
+        <select id="weak-dropdown" name="Name">
+          {{#each types}}
+          <option value="" selected> {{this.name}} </option>
+          {{/each}}
+        </select> 
+      </div>
+      <div class="col-sm-3">
+        <h3> Strong </h3>
+        <select id="strong-dropdown" name="Name">
+          {{#each types}}
+          <option value="" selected> {{this.name}} </option>
+          {{/each}}
+        </select> 
+      </div>
     </div>
-    <div class="col-sm-2">
-      <button class="btn btn-success"> Submit </button>
+
+    <!-- Add Row and Submit buttons-->
+    <div class="row">
+      <div class="col-sm-2">
+        <button id="submit-type-relation" class="btn btn-success"> Submit </button>
+      </div>
     </div>
   </div>
 </div>
