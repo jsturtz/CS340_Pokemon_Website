@@ -10,7 +10,7 @@ var app = express();
 // import handlebars and bodyParser
 var handlebars = require('express-handlebars').create({defaultLayout:'main'});
 app.engine('handlebars', handlebars.engine);
-app.set('port', 3191);
+app.set('port', 3291);
 app.set('view engine', 'handlebars');
 
 // tells app to either use urlencoded or json depending on what it parses
@@ -39,21 +39,42 @@ app.get('/read',function(req,res){
 });
 
 app.post('/create', function(req, res) {
-  console.log('this code is hit');
+  // response object will be sent with status code of either 
+  // 200 (OK) or 422(Unprocessable Entity) if user enters bad
+  // data
   switch(req.body.action) {
     case "type": 
-      addType(req.body.name, function(){
+      addType(req.body.name, function(code, message) {
+        res.status(code).send(message);
       }); 
       break; 
 
     case "type-relation":
 
       addTypeRelation(
-        req.body.name, 
         req.body.weak, 
         req.body.strong, 
-        function() {}
-      );
+        function(code, message) {
+          res.status(code).send(message); 
+        });
+      break;
+
+    case "move":
+      addMove(
+        req.body.name, 
+        req.body.effect, 
+        function(code, message) {
+          res.status(code).send(message); 
+        });
+      break;
+
+    case "location":
+      addLocation(
+        req.body.name, 
+        req.body.description, 
+        function(code, message) {
+          res.status(code).send(message); 
+        });
       break;
 
     default:
@@ -70,60 +91,121 @@ app.get('/delete',function(req,res){
   res.render('delete');
 });
 
-
 function addType(name, callback) {
-  var query = "SELECT name FROM Types;"
-  mysql.pool.query(query, function(err, rows, fields) {
-    if (err) throw "ERROR: " + err;
+  // get names to ensure 'name' not already in database
+  mysql.pool.query(
+    "SELECT name FROM Types;", 
+    function(err, rows, fields) {
+    if (err) return callback(422, err);
 
     for (var i = 0; i < rows.length; i++) {
-      if (name.toLowerCase() == rows[i].name.toLowerCase()) {
-        return false;
-      }
+      if (name == rows[i].name) return callback(422, "Name already exists");
     }
     
-    query = 'INSERT INTO Types (name) VALUES ("' + name + '")';
-    mysql.pool.query(query, function(err, rows, fields) {
-      if (err) throw "ERROR: " + err;
+    // insert into database
+    mysql.pool.query(
+      'INSERT INTO Types (name) VALUES ("' + name + '")', 
+      function(err, rows, fields) {
+      if (err) return callback(422, err);
+      return callback(200, "Type added successfully!");
     });
   });
 }
 
-function addTypeRelation(name, weak, strong, callback) {
-    var name_id = 'SELECT id FROM Types WHERE name = "' + name + '";'
-    var weak_id = 'SELECT id FROM Types WHERE name = "' + weak + '";'
-    var strong_id = 'SELECT id FROM Types WHERE name = "' + strong + '";';
+function addTypeRelation(weak, strong, callback) {
+  
+  if (weak === strong) return callback(422, "A type cannot be weak or strong against itself");
+  
+  // get weak_id
+  mysql.pool.query(
+    'SELECT id FROM Types WHERE name = "' + weak + '";', 
+    function(err, rows, fields) {
+    if (err) return callback(422, err);
+    var weak_id = rows[0].id; 
     
-    mysql.pool.query(name_id, function(err, rows, fields) {
-      if (err) throw "ERROR: " + err;
-      name_id = rows[0].id; 
-
-      mysql.pool.query(weak_id, function(err, rows, fields) {
-        if (err) throw "ERROR: " + err;
-        weak_id = rows[0].id; 
-
-        mysql.pool.query(strong_id, function(err, rows, fields) {
-          if (err) throw "ERROR: " + err;
-          strong_id = rows[0].id; 
+    // get strong_id
+    mysql.pool.query(
+      'SELECT id FROM Types WHERE name = "' + strong + '";', 
+      function(err, rows, fields) {
+      if (err) return callback(422, err);
+      var strong_id = rows[0].id;
+    
+      // used to verify that this combo hasn't been added in either direction
+      mysql.pool.query(
+        'SELECT weak_id, strong_id FROM Types_Strength WHERE (weak_id = "' + weak_id + 
+        '" AND strong_id = "' + strong_id + '") OR (weak_id = "' + strong_id + 
+        '" AND strong_id = "' + weak_id + '");', 
+        function(err, rows, fields) {
+        if (err) return callback(422, err);
+        if (rows.length > 0) return callback(422, "That relation already exists in the database");
         
-          var weak_query = 
-              'INSERT INTO Types_Strength (weak_id, strong_id) ' +
-              'VALUES("' + weak_id + '", "' + name_id + '");';
-          console.log(weak_query);
-          mysql.pool.query(weak_query, function(err, rows, fields) {
-            if (err) throw "ERROR: " + err;
-
-            var strong_query = 
-                'INSERT INTO Types_Strength (weak_id, strong_id) ' +
-                'VALUES("' + name_id + '", "' + strong_id + '");'
-            console.log(strong_query);
-            mysql.pool.query(strong_query, function(err, rows, fields) {
-              if (err) throw "ERROR: " + err;
-            });
-          });
+        // insert into database
+        mysql.pool.query(
+          'INSERT INTO Types_Strength (weak_id, strong_id) ' +
+          'VALUES("' + weak_id + '", "' + strong_id + '");', 
+          function(err, rows, fields) {
+          if (err) return callback(422, "This relation is already in the database");
+          callback(200, "Type Relation successfully added"); // success!
         });
       });
     });
+  });
+}
+
+// precondition: name and effect must be cleaned up (no extra whitespace on
+// either end, every first digit is always upper case) 
+// database must have no bad entries
+
+function addMove(name, effect, callback) {
+  // make sure name isn't already in Moves
+  mysql.pool.query(
+    "SELECT name FROM Moves;", 
+    function(err, rows, fields) {
+    if (err) return callback(422, err);
+    
+    console.log(name);
+    for (var i = 0; i < rows.length; i++) {
+      if (name == rows[i].name) {
+        return callback(422, "That move already exists in the database");
+      }
+    }
+
+    // insert into moves   
+    mysql.pool.query(
+      'INSERT INTO Moves (name, status_effect) ' + 
+      'VALUES ("' + name + '", "' + effect + '")', 
+      function(err, rows, fields) {
+      if (err) return callback(422, err);
+      return callback(200, "Move successfully added");
+    });
+  });
+}
+// precondition: name must be cleaned up, i.e. only the first character
+// of every word in name is upper case. Must also be true of elements
+// in database
+
+function addLocation(name, desc, callback) {
+  // make sure name isn't already in Locations
+  mysql.pool.query(
+    "SELECT name FROM Locations;", 
+    function(err, rows, fields) {
+    if (err) return callback(422, err);
+    
+    for (var i = 0; i < rows.length; i++) {
+      if (name == rows[i].name) {
+        return callback(422, "That location already exists in the database");
+      }
+    }
+
+    // insert into moves   
+    mysql.pool.query(
+      'INSERT INTO Locations (name, description) ' + 
+      'VALUES ("' + name + '", "' + desc + '")', 
+      function(err, rows, fields) {
+      if (err) return callback(422, err);
+      return callback(200, "Location successfully added");
+    });
+  });
 }
 
 function getPageInfo(callback) {

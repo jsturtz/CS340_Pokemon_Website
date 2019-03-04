@@ -264,7 +264,7 @@
     <!-- Add Row and Submit buttons-->
     <div class="row">
       <div class="col-sm-2">
-        <button id="submit-type" class="btn btn-success"> Submit </button>
+        <button id="submit-type-btn" class="btn btn-success"> Submit </button>
       </div>
     </div>
   </div>
@@ -273,24 +273,24 @@
   <div id="add-type-relation" class="container" style="display:none;">
     <div class="row">
       <div class="col-sm-3">
-        <h3> Name </h3>
-        <select id="name-dropdown" name="Name">
+        <h3> Type </h3>
+        <select id="type1" name="Name">
           {{#each types}}
             <option value="{{this.name}}"> {{this.name}} </option>
           {{/each}}
         </select> 
       </div>
       <div class="col-sm-3">
-        <h3> Weak </h3>
-        <select id="weak-dropdown" name="Name">
-          {{#each types}}
-          <option value="{{this.name}}" > {{this.name}} </option>
-          {{/each}}
+        <h3> Relation </h3>
+        <select id="relation" name="Name">
+          <option value="weak" > is weak against </option>
+          <option value="strong" > strong against </option>
         </select> 
       </div>
+
       <div class="col-sm-3">
-        <h3> Strong </h3>
-        <select id="strong-dropdown" name="Name">
+        <h3> Type </h3>
+        <select id="type2" name="Name">
           {{#each types}}
           <option value="{{this.name}}" > {{this.name}} </option>
           {{/each}}
@@ -301,7 +301,7 @@
     <!-- Add Row and Submit buttons-->
     <div class="row">
       <div class="col-sm-2">
-        <button id="submit-type-relation" class="btn btn-success"> Submit </button>
+        <button id="submit-type-relation-btn" class="btn btn-success"> Submit </button>
       </div>
     </div>
   </div>
@@ -313,13 +313,13 @@
     <div class="col-sm-3">
       <h3> Name </h3>
       <div class="form-group">
-        <input class="form-control" placeholder="incinerate">
+        <input id="move-name" class="form-control" placeholder="incinerate">
       </div>
     </div>
     <div class="col-sm-9">
       <h3> Status Effect </h3>
       <div class="form-group">
-        <input class="form-control" placeholder="Damage over time">
+        <input id="move-effect" class="form-control" placeholder="Damage over time">
       </div>
     </div>
   </div>
@@ -327,10 +327,7 @@
   <!-- Add Row and Submit buttons -->
   <div class="row">
     <div class="col-sm-2">
-      <button class="btn btn-primary" id="add-row-move" > Add Row </button>
-    </div>
-    <div class="col-sm-2">
-      <button class="btn btn-success"> Submit </button>
+      <button id="submit-move-btn" class="btn btn-success"> Submit </button>
     </div>
   </div>
 </div>
@@ -341,13 +338,13 @@
     <div class="col-sm-3">
       <h3> Name </h3>
       <div class="form-group">
-        <input class="form-control" placeholder="incinerate">
+        <input id="location-name" class="form-control" placeholder="incinerate">
       </div>
     </div>
     <div class="col-sm-9">
       <h3> Description </h3>
       <div class="form-group">
-        <textarea class="form-control" style='min-width:100%' id='location-description'></textarea> 
+        <textarea id="location-description" class="form-control" style='min-width:100%' id='location-description'></textarea> 
       </div>
     </div>
   </div>
@@ -355,7 +352,7 @@
   <!-- Submit buttons -->
   <div class="row">
     <div class="col-sm-2">
-      <button class="btn btn-success"> Submit </button>
+      <button id="submit-location-btn" class="btn btn-success"> Submit </button>
     </div>
   </div>
 </div>
