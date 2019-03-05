@@ -44,7 +44,8 @@ app.post('/create', function(req, res) {
   // data
   switch(req.body.action) {
     case "pokemon":
-      addPokemon( req.body, function(code, message) {
+      addPokemon(req.body, function(code, message) {
+        console.log(message);
         res.status(code).send(message); 
       });
       break;
@@ -115,10 +116,6 @@ function addPokemon(D, callback) {
       }
     }
     
-    var test = 'INSERT INTO Pokemon (name, attack, defense, health, speed, description) ' + 
-      'VALUES( "' + D.name + '", "' + D.attack + '", "' + D.defense +  
-      '", "' + D.health + '", "' + D.speed + '", "' + D.description + '");'; 
-
     // insert Pokemon itself
     mysql.pool.query(
       'INSERT INTO Pokemon (name, attack, defense, health, speed, description) ' + 
@@ -141,35 +138,39 @@ function addPokemon(D, callback) {
             'VALUES("' + id + '", "' + D.types[i] + '");', 
             function(err, rows, fields) {
             if (err) return callback(422, err);
-            
-            // add pokemon moves
-            for (var i = 0; i < D.moves.length; i++) {
-              mysql.pool.query(
-                'INSERT INTO Pokemon_Moves (poke_id, move_id, level) ' + 
-                'VALUES("' + id + '", "' + D.moves[i].id + '", "' + D.moves.level + '");', 
-                function(err, rows, fields) {
-                if (err) return callback(422, err);
-
-                // add evolutions to
-                mysql.pool.query(
-                  'INSERT INTO Evolutions (to_poke, from_poke) ' + 
-                  'VALUES("' + D.evolves_to + '", "' + id + '");', 
-                  function(err, rows, fields) {
-                  if (err) return callback(422, err);
-
-                  // add evolutions from
-                  mysql.pool.query(
-                    'INSERT INTO Evolutions (to_poke, from_poke) ' + 
-                    'VALUES("' + id + '", "' + D.evolves_from + '");', 
-                    function(err, rows, fields) {
-                    if (err) return callback(422, err);
-                    return callback(200, "Pokemon successfully added");
-                  });
-                });
-              });
-            }
           });
         }
+            
+        // add pokemon moves
+        for (var i = 0; i < D.moves.length; i++) {
+          mysql.pool.query(
+            'INSERT INTO Pokemon_Moves (poke_id, move_id, level) ' + 
+            'VALUES("' + id + '", "' + D.moves[i].id + '", "' + D.moves.level + '");', 
+            function(err, rows, fields) {
+            if (err) return callback(422, err);
+          });
+        }
+                
+        if (D.evolves_to) {
+          // add evolutions to
+          mysql.pool.query(
+            'INSERT INTO Evolutions (to_poke, from_poke) ' + 
+            'VALUES("' + D.evolves_to + '", "' + id + '");', 
+            function(err, rows, fields) {
+            if (err) return callback(422, err);
+          });
+        }
+
+        if (D.evolves_from) {
+          // add evolutions from
+          mysql.pool.query(
+            'INSERT INTO Evolutions (to_poke, from_poke) ' + 
+            'VALUES("' + id + '", "' + D.evolves_from + '");', 
+            function(err, rows, fields) {
+            if (err) return callback(422, err);
+          });
+        }
+        return callback(200, "Pokemon successfully added");
       });
     });
   });
@@ -283,18 +284,15 @@ function getPageInfo(filterBy, sortBy, asc, callback) {
         getMoves(function(moves){
           getLocations(function(locations) {
             getToEvolutions(function(hasToEvos) {
-              getFromEvolutions(function(hasFromEvos) {
-                var context = { 
-                  pokemon: pokemon, 
-                  types: types, 
-                  typeRelations: typeRelations, 
-                  moves: moves,
-                  locations: locations, 
-                  hasToEvos: hasToEvos, 
-                  hasFromEvos: hasFromEvos
-                }
-                callback(context);
-              });
+              var context = { 
+                pokemon: pokemon, 
+                types: types, 
+                typeRelations: typeRelations, 
+                moves: moves,
+                locations: locations, 
+                hasToEvos: hasToEvos
+              }
+              callback(context);
             });
           });
         });
@@ -529,27 +527,6 @@ function getToEvolutions(callback) {
       });
     }
     callback(toEvos);
-  });
-}
-
-function getFromEvolutions(callback) {
-  // get only those ids that have an available evolution_from
-  mysql.pool.query(
-    'SELECT DISTINCT T1.id, T1.name FROM (SELECT id, name FROM Pokemon) AS T1 ' + 
-    'LEFT JOIN (SELECT from_poke FROM Evolutions) AS T2 ON T1.id = T2.from_poke ' + 
-    'WHERE T2.from_poke IS NULL;', 
-    function(err, rows, fields) {
-    if (err) throw "ERROR: " + err 
-    
-    var fromEvos = [];
-    for (var i = 0; i < rows.length; i++) {
-      fromEvos.push({
-        id: rows[i].id, 
-        name: rows[i].name
-      });
-    }
-
-    callback(fromEvos);
   });
 }
 

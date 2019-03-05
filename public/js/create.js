@@ -59,7 +59,6 @@ function bindToggleBtns() {
 function bindNavBtns() {
   document.getElementById("btn-poke").addEventListener("click", function(event) {
     var forms = document.getElementsByClassName("add-form")
-    console.log(forms)
     for (var i = 0; i < forms.length; i++) {
       forms[i].style.display= "none";
     }
@@ -109,12 +108,10 @@ function bindTypeSubmit() {
       weak: weak, 
       strong: strong
     };
-    console.log(payload);
     post(payload);
   });
 
   document.getElementById("submit-type-btn").addEventListener("click", function(event) {
-    console.log(upperFirstChar(document.getElementById("type-input").value));
     var payload = {
       action: "type", 
       name: upperFirstChar(document.getElementById("type-input").value), 
@@ -139,7 +136,6 @@ function bindMoveSubmit() {
 function bindLocationSubmit() {
   document.getElementById("submit-location-btn").addEventListener("click", function(event) {
     
-    console.log(upperEveryFirstChar(document.getElementById("location-name").value));
     var payload = {
       action: "location", 
       name: upperEveryFirstChar(document.getElementById("location-name").value), 
@@ -192,8 +188,11 @@ function bindPokeSubmit() {
         var type1 = document.getElementById("type1").value;
         var type2 = document.getElementById("type2").value;
         var types = [];
-        if (type1) types.push(type1);
-        if (type2) types.push(type2);
+        if (type1 === type2 && type1) types.push(type1);
+        else {
+          if (type1) types.push(type1);
+          if (type2) types.push(type2);
+        }
         
         // Grab text for poke-description
         var description = document.getElementById("poke-description").value;
@@ -212,7 +211,6 @@ function bindPokeSubmit() {
           evolves_to: evolves_to,
           evolves_from: evolves_from
         }
-        console.log(payload);
         post(payload);
       } else window.alert("Evolutions cannot be the same Pokemon");
     } else window.alert("Please fill out all fields in Stats");

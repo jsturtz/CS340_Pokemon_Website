@@ -58,7 +58,6 @@ CREATE TABLE Pokemon_Locations (
 CREATE TABLE Types_Strength (
 	strong_id INT(11) NOT NULL,
 	weak_id INT(11) NOT NULL,
-	PRIMARY KEY (strong_id, weak_id),
 	FOREIGN KEY(strong_id) REFERENCES Types(id) ON DELETE CASCADE,
 	FOREIGN KEY(weak_id) REFERENCES Types(id) ON DELETE CASCADE
 );
