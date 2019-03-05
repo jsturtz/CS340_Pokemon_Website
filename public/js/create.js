@@ -109,7 +109,7 @@ function bindTypeSubmit() {
       weak: weak, 
       strong: strong
     };
-
+    console.log(payload);
     post(payload);
   });
 
@@ -150,4 +150,71 @@ function bindLocationSubmit() {
 }
 
 function bindPokeSubmit() {
+  document.getElementById("submit-pokemon-btn").addEventListener("click", function(event) {
+    var name = upperEveryFirstChar(document.getElementById("inp-name").value);
+    var attack = document.getElementById("inp-attack").value;
+    var defense = document.getElementById("inp-defense").value;
+    var health = document.getElementById("inp-health").value;
+    var speed = document.getElementById("inp-speed").value;
+
+    // all fields must be filled out
+    if (name && attack && defense && health && speed) {
+
+      // evolutions must be different pokemon
+      var evolves_to = document.getElementById("evolves_to").value;
+      var evolves_from = document.getElementById("evolves_from").value;
+      if (!evolves_to) evolves_to = null;
+      if (!evolves_from) evolves_from = null;
+      // will throw an error if both are not null and they are the same ids
+      if (evolves_to !== evolves_from || !(evolves_to && evolves_from)) {
+        
+        // add location ids
+        var location_rows = document.getElementsByClassName("location-field");
+        var locations = [];
+        for (var i = 0; i < location_rows.length; i++) {
+          if (location_rows[i].checked) {
+            locations.push(location_rows[i].value);
+          }
+        }
+
+        // add moves if fields are filled out
+        var move_rows = document.getElementsByClassName("move-row");
+        var moves = [];
+        for (var i = 0; i < move_rows.length; i++) {
+          var level = move_rows[i].querySelector("input").value;
+          var id = move_rows[i].querySelector("select").value;
+          if (id) {
+            moves.push({id: id, level: level}); 
+          }
+        }
+        
+        // add types if fields are filled out
+        var type1 = document.getElementById("type1").value;
+        var type2 = document.getElementById("type2").value;
+        var types = [];
+        if (type1) types.push(type1);
+        if (type2) types.push(type2);
+        
+        // Grab text for poke-description
+        var description = document.getElementById("poke-description").value;
+
+        payload = {
+          action: "pokemon", 
+          name: name, 
+          attack: attack, 
+          defense: defense, 
+          health: health, 
+          speed: speed, 
+          types: types,
+          moves: moves, 
+          locations: locations,
+          description: description, 
+          evolves_to: evolves_to,
+          evolves_from: evolves_from
+        }
+        console.log(payload);
+        post(payload);
+      } else window.alert("Evolutions cannot be the same Pokemon");
+    } else window.alert("Please fill out all fields in Stats");
+  });
 }

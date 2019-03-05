@@ -84,9 +84,6 @@
        <option value="defense">Defense</option>
        <option value="health">Health</option>
        <option value="speed">Speed</option>
-       <!-- <option value="type">Type</option> -->
-       <!-- <option value="move">Move</option> -->
-       <!-- <option value="location">Location</option> -->
       </select> 
       <select id="sortBy" name="category">
        <option value="ASC" selected>Ascending</option>
@@ -160,11 +157,11 @@
       </tr>
     </thead>
     <tbody>
-      {{#each types}}
+      {{#each typeRelations}}
       <tr>
         <td> {{this.name}} </td>
-        <td> {{this.weak_against}} </td>
-        <td> {{this.strong_against}} </td>
+        <td> {{this.weak}} </td>
+        <td> {{this.strong}} </td>
       </tr>
       {{/each}}
     </tbody>
@@ -177,13 +174,14 @@
     <thead class="thead-dark">
       <tr>
         <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th scope="col">Status Effect</th>
       </tr>
     </thead>
     <tbody>
       {{#each moves}}
       <tr>
-        <td>{{this}}</td>
+        <td>{{this.name}}</td>
+        <td>{{this.status_effect}}</td>
       </tr>
       {{/each}}
     </tbody>

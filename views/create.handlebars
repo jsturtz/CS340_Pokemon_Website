@@ -71,170 +71,194 @@
 
 <!-- form for changing pokemon -->
 <div id="container-poke" class="container add-form">
-  <form>
-    <fieldset> <legend> Add Pokemon: </legend>
-
-      <div class="row">
-        <!-- Stats specific fo pokemon here -->
-        <div class="col-sm-3">
-          <h3> Stats </h3>
-          <div class="form-group">
-            <label for="inp-name"> Name </label>
-            <input class="form-control" id="inp-name" placeholder="Charizard">
-            <label for="inp-health"> Health </label>
-            <input class="form-control" id="inp-health" placeholder="100">
-            <label for="inp-attack"> Attack </label>
-            <input class="form-control" id="inp-attack" placeholder="20">
-            <label for="inp-defense"> Defense </label>
-            <input class="form-control" id="inp-defense" placeholder="15">
-            <label for="inp-speed"> Speed </label>
-            <input class="form-control" id="inp-speed" placeholder="30">
-          </div>
-        </div>
-
-        <!-- Choose Types here-->
-        <div class="col-sm-3">
-          <h3> Types</h3>
-          <div class="form-check">
-            <label class="form-check-label"> 
-              <input class="form-check-input" type="checkbox" value=""> 
-                Grass
-            </label>
-          </div>
-          <div class="form-check">
-            <label class="form-check-label"> 
-              <input class="form-check-input" type="checkbox" value=""> 
-                Fire
-            </label>
-          </div>
-          <div class="form-check">
-            <label class="form-check-label"> 
-              <input class="form-check-input" type="checkbox" value=""> 
-                Water
-            </label>
-          </div>
-        </div>
-
-        <!-- Choose locations here-->
-        <div class="col-sm-3">
-          <h3> Locations</h3>
-          <div class="form-check">
-            <label class="form-check-label"> 
-              <input class="form-check-input" type="checkbox" value=""> 
-                Woods
-            </label>
-          </div>
-          <div class="form-check">
-            <label class="form-check-label"> 
-              <input class="form-check-input" type="checkbox" value=""> 
-                Ocean
-            </label>
-          </div>
-          <div class="form-check">
-            <label class="form-check-label"> 
-              <input class="form-check-input" type="checkbox" value=""> 
-                Volcano
-            </label>
-          </div>
-        </div>
-
-        <!-- Choose Moves here-->
-        <div class="col-sm-3">
-          <h3> Moves: </h3>
-          <table class="table">
-            <thead>
-              <tr>
-                <th scope="col"> Name </th>
-                <th scope="col"> Lvl </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>
-                  <div class="form-group">
-                    <input class="form-control" placeholder="10">
-                  </div>
-                </td>
-                <td>
-                  <div class = "dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Choose Move
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                      <a class="dropdown-item"> Incinerate </a>
-                      <a class="dropdown-item"> Squirt </a>
-                      <a class="dropdown-item"> Slash </a>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <button class="btn btn-primary"> Add Move </button>
-        </div>
-
+  <div class="row">
+    <!-- Stats specific fo pokemon here -->
+    <div class="col-sm-6">
+      <h3> Stats </h3>
+      <div class="form-group">
+        <label for="inp-name"> Name </label>
+        <input class="form-control" id="inp-name" placeholder="Charizard">
+        <label for="inp-health"> Health </label>
+        <input class="form-control" id="inp-health" placeholder="100">
+        <label for="inp-attack"> Attack </label>
+        <input class="form-control" id="inp-attack" placeholder="20">
+        <label for="inp-defense"> Defense </label>
+        <input class="form-control" id="inp-defense" placeholder="15">
+        <label for="inp-speed"> Speed </label>
+        <input class="form-control" id="inp-speed" placeholder="30">
       </div>
+    </div>
 
-      <!-- Evolutions -->
-      <div class="row">
-        <div class="col-sm-6">
-          Evolves From: 
-          <div class = "dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Choose Pokemon
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <a class="dropdown-item"> Squirtle </a>
-              <a class="dropdown-item"> Ryan Reynolds </a>
-              <a class="dropdown-item"> None </a>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm-6">
-          Evolves To: 
-          <div class = "dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Choose Pokemon
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <a class="dropdown-item"> Squirtle </a>
-              <a class="dropdown-item"> Ryan Reynolds </a>
-              <a class="dropdown-item"> None </a>
-            </div>
-          </div>
-        </div>
-      </div>
+    <!-- Choose Moves here-->
+    <div class="col-sm-6">
+      <h3> Moves: </h3>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col"> Lvl </th>
+            <th scope="col"> Name </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div class="form-group">
+                <input class="form-control" placeholder="10">
+              </div>
+            </td>
+            <td>
+              <select> 
+                <option class="dropdown-item" value=""> None </option>
+                {{#each moves}}
+                <option class="dropdown-item" value = "{{this.id}}"> {{this.name}} </option>
+                {{/each}}
+              </select>
+            </td>
+          </tr>
+          <tr class="move-row">
+            <td>
+              <div class="form-group">
+                <input class="form-control" placeholder="10">
+              </div>
+            </td>
+            <td>
+              <select> 
+                <option class="dropdown-item" value=""> None </option>
+                {{#each moves}}
+                <option class="dropdown-item" value = "{{this.id}}"> {{this.name}} </option>
+                {{/each}}
+              </select>
+            </td>
+          </tr>
+          <tr class="move-row">
+            <td>
+              <div class="form-group">
+                <input class="form-control" placeholder="10">
+              </div>
+            </td>
+            <td>
+              <select> 
+                <option class="dropdown-item" value=""> None </option>
+                {{#each moves}}
+                <option class="dropdown-item" value = "{{this.id}}"> {{this.name}} </option>
+                {{/each}}
+              </select>
+            </td>
+          </tr>
+          <tr class="move-row">
+            <td>
+              <div class="form-group">
+                <input class="form-control" placeholder="10">
+              </div>
+            </td>
+            <td>
+              <select> 
+                <option class="dropdown-item" value=""> None </option>
+                {{#each moves}}
+                <option class="dropdown-item" value = "{{this.id}}"> {{this.name}} </option>
+                {{/each}}
+              </select>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
-      <!-- Type description here -->
-      <div class="row">
-        <div class="col-sm-12">
-          <div class="form-group">
-            <label for='poke-description'>Description of the Pokemon:</label>
-            <textarea class="form-control" style='min-width:100%' id='poke-description'></textarea> 
-          </div>
-        </div>
-      </div>
+  </div>
+  
+  <div class="row">
+    <!-- Choose Types here-->
+    <div class="col">
+      <h3> Types</h3>
+      <select id="type1"> 
+        <option class="dropdown-item" value=""> None </option>
+        {{#each types}}
+        <option class="dropdown-item" value = "{{this.id}}"> {{this.name}} </option>
+        {{/each}}
+      </select>
+      <select id="type2"> 
+        <option class="dropdown-item" value=""> None </option>
+        {{#each types}}
+        <option class="dropdown-item" value = "{{this.id}}"> {{this.name}} </option>
+        {{/each}}
+      </select>
+    </div>
+    <!-- Evolutions -->
+    <div class="col-sm-6">
+      <h3> Evolutions </h3>
+      <table class="table">
+        <tbody>
+          <tr>
+            <td> Evolves From: </td>
+            <td>
+              <select id="evolves_from"> 
+                <option class="dropdown-item" value=""> None </option>
+                {{#each hasFromEvos}}
+                <option class="dropdown-item" value = "{{this.id}}"> {{this.name}} </option>
+                {{/each}}
+              </select> </br>
+            </td>
+          </tr>
+          <tr>
+            <td> Evolves To: </td>
+            <td>
+              <select id="evolves_to"> 
+                <option class="dropdown-item" value=""> None </option>
+                {{#each hasToEvos}}
+                <option class="dropdown-item" value = "{{this.id}}"> {{this.name}} </option>
+                {{/each}}
+              </select> </br>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 
-      <!-- Upload Image Here -->
-      <div class="row">
-        <div class="col-sm-12">
-          <div class="custom-file">
-            <input type="file" accept=".jpg, .png" class="custom-file-input" id="customFile"> 
-            <label class="custom-file-label" for="customFile">Choose picture file </label>
-          </div>
-        </div>
+  <div class="row">
+    <!-- Choose locations here-->
+    <div class="col-sm-4">
+      <h3> Locations</h3>
+      {{#each locations}}
+      <div class="form-check">
+        <label class="form-check-label"> 
+          <input class="location-field" type="checkbox" value="{{this.id}}"> 
+          {{this.name}}
+        </label>
       </div>
-    
-      <!-- Submit button -->
-      <div class="row">
-        <div class="col-sm-1">
-          <button type="submit" class="btn btn-success" id='poke-submit' >
-            Submit
-          </button>
-        </div>
+      {{/each}}
+    </div>
+  </div>
+
+
+  <!-- Type description here -->
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="form-group">
+        <label for='poke-description'>Description of the Pokemon:</label>
+        <textarea class="form-control" style='min-width:100%' id='poke-description'></textarea> 
       </div>
-    </fieldset>
-  </form>
+    </div>
+  </div>
+
+  <!-- Upload Image Here -->
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="custom-file">
+        <input type="file" accept=".jpg, .png" class="custom-file-input" id="customFile"> 
+        <label class="custom-file-label" for="customFile">Choose picture file </label>
+      </div>
+    </div>
+  </div>
+
+  <!-- Submit button -->
+  <div class="row">
+    <div class="col-sm-1">
+      <button type="submit" class="btn btn-success" id='submit-pokemon-btn' >
+        Submit
+      </button>
+    </div>
+  </div>
 </div>
 
 <!-- form for adding type -->
@@ -276,7 +300,7 @@
         <h3> Type </h3>
         <select id="type1" name="Name">
           {{#each types}}
-            <option value="{{this.name}}"> {{this.name}} </option>
+            <option value="{{this.id}}"> {{this.name}} </option>
           {{/each}}
         </select> 
       </div>
@@ -292,7 +316,7 @@
         <h3> Type </h3>
         <select id="type2" name="Name">
           {{#each types}}
-          <option value="{{this.name}}" > {{this.name}} </option>
+          <option value="{{this.id}}" > {{this.name}} </option>
           {{/each}}
         </select> 
       </div>
