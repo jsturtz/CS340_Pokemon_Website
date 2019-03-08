@@ -10,7 +10,7 @@ var app = express();
 // import handlebars and bodyParser
 var handlebars = require('express-handlebars').create({defaultLayout:'main'});
 app.engine('handlebars', handlebars.engine);
-app.set('port', 3291);
+app.set('port', 23291);
 app.set('view engine', 'handlebars');
 
 // tells app to either use urlencoded or json depending on what it parses
@@ -37,6 +37,50 @@ app.get('/read',function(req,res){
     res.render('read', context);
   });
 });
+
+app.get('/delete',function(req,res){
+  getPageInfo(req.query.filterBy, req.query.sortBy, req.query.asc, function(context) {
+    res.render('delete', context);
+  });
+});
+
+
+app.post('/delete', function(req, res) {
+  // response object will be sent with status code of either 
+  // 200 (OK) or 422(Unprocessable Entity) if user enters bad
+  // data
+  switch(req.body.action) {
+    case "delete_Poke":
+      delete_Poke(req.body.name, function(code, message) {
+        res.status(code).send(message); 
+      });
+      break;
+
+    case "delete_Type":
+      delete_Type(req.body.name, function(code, message) {
+        res.status(code).send(message);
+      });
+      break;
+
+    case "delete_Move":
+      delete_Move(req.body.name, function(code, message) {
+        res.status(code).send(message);
+      });
+      break;
+
+    case "delete_Location":
+      delete_Location(req.body.name, function(code, message) {
+        res.status(code).send(message);
+      });
+      break;
+
+
+    default:
+      res.send("ERROR: Incorrect format for post");
+      break;
+  }
+});
+
 
 app.post('/create', function(req, res) {
   // response object will be sent with status code of either 
@@ -94,9 +138,55 @@ app.get('/update',function(req,res){
   res.render('update');
 });
 
-app.get('/delete',function(req,res){
-  res.render('delete');
-});
+function delete_Poke(pokeName, callback) {
+	if (pokeName == "") return callback(200, "Please select a Pokemon!");
+
+	console.log("The name value was: " + pokeName);
+	mysql.pool.query(
+	'DELETE FROM Pokemon WHERE name ="' + pokeName + '";',
+	function(err, rows, fields) {
+        if (err) return callback(422, err);
+        return callback(200, "Pokemon Deleted successfully!");
+    });	  
+}
+
+function delete_Type(typeName, callback) {
+	if (typeName == "") return callback(200, "Please select a Type!");
+
+        console.log("The name value was: " + typeName);
+        mysql.pool.query(
+        'DELETE FROM Types WHERE name ="' + typeName + '";',
+        function(err, rows, fields) {
+        if (err) return callback(422, err);
+        return callback(200, "Type Deleted successfully!");
+    });
+}
+
+function delete_Move(moveName, callback) {
+        if (moveName == "") return callback(200, "Please select a Move!");
+
+        console.log("The name value was: " + moveName);
+        mysql.pool.query(
+        'DELETE FROM Moves WHERE name ="' + moveName + '";',
+        function(err, rows, fields) {
+        if (err) return callback(422, err);
+        return callback(200, "Move Deleted successfully!");
+    });
+}
+
+function delete_Location(locationName, callback) {
+        if (locationName == "") return callback(200, "Please select a Location!");
+
+        console.log("The name value was: " + locationName);
+        mysql.pool.query(
+        'DELETE FROM Locations WHERE name ="' + locationName + '";',
+        function(err, rows, fields) {
+        if (err) return callback(422, err);
+        return callback(200, "Location Deleted successfully!");
+    });
+}
+
+
 
 // D is a object containing all the data sent from the frontend
 // It has name, attack, defense, health, speed, and description
@@ -284,15 +374,18 @@ function getPageInfo(filterBy, sortBy, asc, callback) {
         getMoves(function(moves){
           getLocations(function(locations) {
             getToEvolutions(function(hasToEvos) {
+	     getPokeNames(function (names) {
               var context = { 
                 pokemon: pokemon, 
                 types: types, 
                 typeRelations: typeRelations, 
                 moves: moves,
                 locations: locations, 
-                hasToEvos: hasToEvos
+                hasToEvos: hasToEvos,
+		names: names
               }
               callback(context);
+             });	
             });
           });
         });
@@ -300,6 +393,21 @@ function getPageInfo(filterBy, sortBy, asc, callback) {
     });
   });
 }
+
+function getPokeNames(callback) {
+  mysql.pool.query("SELECT P.name FROM Pokemon P;", function(err, rows, fields) {
+    if (err) throw "ERROR: " + err
+
+    var names  = [];
+    for (var j = 0; j < rows.length; j++) {
+      names.push({
+        name: rows[j].name,
+      });
+    }
+    callback(names);
+  });
+}
+
 
 function getPokemon(callback) {
   var getIds = 'SELECT P.id FROM Pokemon P;';
