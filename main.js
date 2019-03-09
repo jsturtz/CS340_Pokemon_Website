@@ -10,7 +10,7 @@ var app = express();
 // import handlebars and bodyParser
 var handlebars = require('express-handlebars').create({defaultLayout:'main'});
 app.engine('handlebars', handlebars.engine);
-app.set('port', 3291);
+app.set('port', 3391);
 app.set('view engine', 'handlebars');
 
 // tells app to either use urlencoded or json depending on what it parses
@@ -23,18 +23,44 @@ app.use(express.static('public', { extensions: ['html'] }));
 
 // read is the home page
 app.get('/',function(req,res){
-  res.render('index');
+  var context = {title: "Index", title_description: "Welcome to the Pokedex!"}
+  res.render('index', context);
 });
 
 app.get('/create',function(req,res){
   getPageInfo(req.query.filterBy, req.query.sortBy, req.query.asc, function(context) {
+    context.title = "Create";
+    context.title_description = "Add Something to the Database";
     res.render('create', context);
   });
 });
 
 app.get('/read',function(req,res){
   getPageInfo(req.query.filterBy, req.query.sortBy, req.query.asc, function(context) {
+    context.title = "Read";
+    context.title_description = "See the Contents of the Database";
+    for (var i = 0; i < context.typeRelations.length; i++) {
+      console.log(context.typeRelations[i].strong_against);
+      console.log(context.typeRelations[i].weak_against);
+    }
     res.render('read', context);
+  });
+});
+
+app.get('/update',function(req,res){
+  getPageInfo(req.query.filterBy, req.query.sortBy, req.query.asc, function(context) {
+    context.title = "Update";
+    context.title_description = "Update Entities in the Database";
+    console.log(context);
+    res.render('update', context);
+  });
+});
+
+app.get('/delete',function(req,res){
+  getPageInfo(req.query.filterBy, req.query.sortBy, req.query.asc, function(context) {
+    context.title = "Delete";
+    context.title_description = "Delete Entities in the Database";
+    res.render('delete', context);
   });
 });
 
@@ -90,13 +116,6 @@ app.post('/create', function(req, res) {
   }
 });
 
-app.get('/update',function(req,res){
-  res.render('update');
-});
-
-app.get('/delete',function(req,res){
-  res.render('delete');
-});
 
 // D is a object containing all the data sent from the frontend
 // It has name, attack, defense, health, speed, and description
@@ -437,31 +456,24 @@ function getTypes(callback) {
 }
 
 function getTypeRelations(callback) {
-  var query = 
-    'SELECT T.name, w.name AS "weak_against", s.name AS "strong_against" FROM Types T ' +
-    'LEFT JOIN ( ' +
-    'SELECT strong_id AS id, weak_id AS "strong_against" FROM Types_Strength ' +
-    ') AS T1 ON T1.id = T.id ' +
-    'LEFT JOIN Types s ON T1.strong_against=s.id ' +
-    'LEFT JOIN ( ' +
-    'SELECT weak_id AS id, strong_id AS "weak_against" FROM Types_Strength ' +
-    ') AS T2 on T2.id = T.id ' +
-    'LEFT JOIN Types w ON T2.weak_against=w.id;';
+  var query = 'SELECT T.name, T.id, T1.weak_id, T1.weak, T2.strong_id, T2.strong FROM Types T LEFT JOIN (SELECT strong_id AS id, weak_id, WN.weak FROM Types_Strength TS LEFT JOIN (SELECT id, name AS "weak" FROM Types) AS WN ON WN.id = TS.weak_id) AS T1 ON T1.id = T.id LEFT JOIN (SELECT weak_id AS id, strong_id, SN.strong FROM Types_Strength TS LEFT JOIN (SELECT id, name AS "strong" FROM Types) AS SN ON SN.id = TS.strong_id) AS T2 ON T2.id = T1.id';
 
   mysql.pool.query(query, function(err, rows, fields) {
     if (err) throw "ERROR: " + err 
     
     var typeMap = new Map();
     for (var j = 0; j < rows.length; j++) {
-      var name = rows[j].name;
-      if (name in typeMap.keys()) {
-        typeMap.get(name).weak.push(rows[j].weak_against);
-        typeMap.get(name).strong.push(rows[j].strong_against);
+      var row = rows[j];
+      if (typeMap.has(row.id)) {
+        typeMap.get(row.id).strong_against.push({id: row.strong_id, name: row.strong})
+
+        typeMap.get(row.id).weak_against.push({id: row.weak_id, name: row.weak})
       } else {
-        typeMap.set(name, {
-          name: name, 
-          weak: [rows[j].weak_against], 
-          strong: [rows[j].strong_against]
+        typeMap.set(row.id, {
+          name: row.name,
+          id: row.id,
+          strong_against: [{id: row.strong_id, name: row.strong}],
+          weak_against: [{id: row.weak_id, name: row.weak}]
         });
       }
     }

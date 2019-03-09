@@ -34,7 +34,7 @@ CREATE TABLE Pokemon_Types (
 );
 
 CREATE TABLE Evolutions (
-        to_poke INT(11) NOT NULL PRIMARY KEY,
+        to_poke INT(11) NOT NULL,
         from_poke INT(11) NOT NULL,
         FOREIGN KEY(to_poke) REFERENCES Pokemon(id) ON DELETE CASCADE,
         FOREIGN KEY(from_poke) REFERENCES Pokemon(id) ON DELETE CASCADE
