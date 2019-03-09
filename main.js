@@ -58,10 +58,44 @@ app.get('/update',function(req,res){
 
 app.get('/delete',function(req,res){
   getPageInfo(req.query.filterBy, req.query.sortBy, req.query.asc, function(context) {
-    context.title = "Delete";
-    context.title_description = "Delete Entities in the Database";
     res.render('delete', context);
   });
+});
+
+app.post('/delete', function(req, res) {
+  // response object will be sent with status code of either 
+  // 200 (OK) or 422(Unprocessable Entity) if user enters bad
+  // data
+  switch(req.body.action) {
+    case "delete_Poke":
+      delete_Poke(req.body.name, function(code, message) {
+        res.status(code).send(message); 
+      });
+      break;
+
+    case "delete_Type":
+      delete_Type(req.body.name, function(code, message) {
+        res.status(code).send(message);
+      });
+      break;
+
+    case "delete_Move":
+      delete_Move(req.body.name, function(code, message) {
+        res.status(code).send(message);
+      });
+      break;
+
+    case "delete_Location":
+      delete_Location(req.body.name, function(code, message) {
+        res.status(code).send(message);
+      });
+      break;
+
+
+    default:
+      res.send("ERROR: Incorrect format for post");
+      break;
+  }
 });
 
 app.post('/create', function(req, res) {
@@ -115,6 +149,55 @@ app.post('/create', function(req, res) {
       break;
   }
 });
+
+//Delete functions for the page
+function delete_Poke(pokeName, callback) {
+	if (pokeName == "") return callback(200, "Please select a Pokemon!");
+
+	console.log("The name value was: " + pokeName);
+	mysql.pool.query(
+	'DELETE FROM Pokemon WHERE name ="' + pokeName + '";',
+	function(err, rows, fields) {
+        if (err) return callback(422, err);
+        return callback(200, "Pokemon Deleted successfully!");
+    });	  
+}
+
+function delete_Type(typeName, callback) {
+	if (typeName == "") return callback(200, "Please select a Type!");
+
+        console.log("The name value was: " + typeName);
+        mysql.pool.query(
+        'DELETE FROM Types WHERE name ="' + typeName + '";',
+        function(err, rows, fields) {
+        if (err) return callback(422, err);
+        return callback(200, "Type Deleted successfully!");
+    });
+}
+
+function delete_Move(moveName, callback) {
+        if (moveName == "") return callback(200, "Please select a Move!");
+
+        console.log("The name value was: " + moveName);
+        mysql.pool.query(
+        'DELETE FROM Moves WHERE name ="' + moveName + '";',
+        function(err, rows, fields) {
+        if (err) return callback(422, err);
+        return callback(200, "Move Deleted successfully!");
+    });
+}
+
+function delete_Location(locationName, callback) {
+        if (locationName == "") return callback(200, "Please select a Location!");
+
+        console.log("The name value was: " + locationName);
+        mysql.pool.query(
+        'DELETE FROM Locations WHERE name ="' + locationName + '";',
+        function(err, rows, fields) {
+        if (err) return callback(422, err);
+        return callback(200, "Location Deleted successfully!");
+    });
+}
 
 
 // D is a object containing all the data sent from the frontend
