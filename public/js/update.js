@@ -24,6 +24,14 @@ function bindCtrlBtns() {
     document.getElementById("container-type").style.display = "block";
   });
 
+  document.getElementById("btn-move").addEventListener("click", function(event) {
+    let forms = document.getElementsByClassName("change-form")
+    for (let i = 0; i < forms.length; i++) {
+      forms[i].style.display= "none";
+    }
+    document.getElementById("container-move").style.display = "block";
+  });
+
   document.getElementById("btn-location").addEventListener("click", function(event) {
     let forms = document.getElementsByClassName("change-form")
     for (let i = 0; i < forms.length; i++) {

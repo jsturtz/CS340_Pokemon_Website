@@ -10,7 +10,7 @@ var app = express();
 // import handlebars and bodyParser
 var handlebars = require('express-handlebars').create({defaultLayout:'main'});
 app.engine('handlebars', handlebars.engine);
-app.set('port', 3391);
+app.set('port', 3591);
 app.set('view engine', 'handlebars');
 
 // tells app to either use urlencoded or json depending on what it parses
@@ -58,6 +58,8 @@ app.get('/update',function(req,res){
 
 app.get('/delete',function(req,res){
   getPageInfo(req.query.filterBy, req.query.sortBy, req.query.asc, function(context) {
+    context.title = "Delete";
+    context.title_description = "Delete Entities in the Database";
     res.render('delete', context);
   });
 });
