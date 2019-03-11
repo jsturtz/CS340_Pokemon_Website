@@ -10,7 +10,7 @@ var app = express();
 // import handlebars and bodyParser
 var handlebars = require('express-handlebars').create({defaultLayout:'main'});
 app.engine('handlebars', handlebars.engine);
-app.set('port', 3591);
+app.set('port', 22391);
 app.set('view engine', 'handlebars');
 
 // tells app to either use urlencoded or json depending on what it parses
@@ -99,6 +99,24 @@ app.post('/delete', function(req, res) {
       break;
   }
 });
+
+app.post('/update', function(req, res) {
+  // response object will be sent with status code of either
+  // 200 (OK) or 422(Unprocessable Entity) if user enters bad
+  // data
+  switch(req.body.action) {
+    case "location":
+      update_Location(req.body.id, red.body.name, req.body.description, function(code, message) {
+        res.status(code).send(message);
+      });
+      break;
+
+    default:
+      res.send("ERROR: Incorrect format for post");
+      break;
+  }
+});
+
 
 app.post('/create', function(req, res) {
   // response object will be sent with status code of either 
@@ -199,6 +217,17 @@ function delete_Location(locationName, callback) {
         if (err) return callback(422, err);
         return callback(200, "Location Deleted successfully!");
     });
+}
+
+function update_Location(id, name, description, callback) {
+	if ((name =="") && (description=="")) return callback(200, "Please enter a change to name or description");
+       
+	mysql.pool.query(
+	'UPDATE Locations SET name = ' + name + ',description = ' + description' WHERE id = ' + id + ';',
+	function(err,rows,fields) {
+	if (err) return callback(422,err);
+	return callback(200, "Location Updated successfully!");
+    }); 
 }
 
 
