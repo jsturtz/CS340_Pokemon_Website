@@ -10,7 +10,7 @@ var app = express();
 // import handlebars and bodyParser
 var handlebars = require('express-handlebars').create({defaultLayout:'main'});
 app.engine('handlebars', handlebars.engine);
-app.set('port', 3591);
+app.set('port', 3391);
 app.set('view engine', 'handlebars');
 
 // tells app to either use urlencoded or json depending on what it parses
@@ -28,7 +28,7 @@ app.get('/',function(req,res){
 });
 
 app.get('/create',function(req,res){
-  getPageInfo(req.query.filterBy, req.query.sortBy, req.query.asc, function(context) {
+  getPageInfo(req.query.col, req.query.sortBy, function(context) {
     context.title = "Create";
     context.title_description = "Add Something to the Database";
     res.render('create', context);
@@ -36,19 +36,18 @@ app.get('/create',function(req,res){
 });
 
 app.get('/read',function(req,res){
-  getPageInfo(req.query.filterBy, req.query.sortBy, req.query.asc, function(context) {
+  getPageInfo(req.query.col, req.query.sortBy, function(context) {
     context.title = "Read";
     context.title_description = "See the Contents of the Database";
-    for (var i = 0; i < context.typeRelations.length; i++) {
-      console.log(context.typeRelations[i].strong_against);
-      console.log(context.typeRelations[i].weak_against);
-    }
+    context.sortCol = req.query.col;
+    context.sortBy = req.query.sortBy;
+    console.log(context);
     res.render('read', context);
   });
 });
 
 app.get('/update',function(req,res){
-  getPageInfo(req.query.filterBy, req.query.sortBy, req.query.asc, function(context) {
+  getPageInfo(req.query.col, req.query.sortBy, function(context) {
     context.title = "Update";
     context.title_description = "Update Entities in the Database";
     console.log(context);
@@ -57,11 +56,50 @@ app.get('/update',function(req,res){
 });
 
 app.get('/delete',function(req,res){
-  getPageInfo(req.query.filterBy, req.query.sortBy, req.query.asc, function(context) {
+  getPageInfo(req.query.col, req.query.sortBy, function(context) {
     context.title = "Delete";
     context.title_description = "Delete Entities in the Database";
     res.render('delete', context);
   });
+});
+
+app.post('/update', function(req, res) {
+  switch(req.body.action) {
+    case "pokemon":
+      updatePoke(
+        req.body.id,
+        req.body.name, 
+        req.body.health,
+        req.body.attack,
+        req.body.defense,
+        req.body.speed,
+        function(code, message) {
+        res.status(code).send(message); 
+      });
+      break;
+
+    case "type":
+      updateType(req.body.id, req.body.name, function(code, message) {
+        res.status(code).send(message);
+      });
+      break;
+
+    case "move":
+      updateMove(req.body.id, req.body.name, req.body.status_effect, function(code, message) {
+        res.status(code).send(message);
+      });
+      break;
+
+    case "location":
+      updateLocation(req.body.id, req.body.name, req.body.description, function(code, message) {
+        res.status(code).send(message);
+      });
+      break;
+
+    default:
+      res.send("ERROR: Incorrect format for post");
+      break;
+  }
 });
 
 app.post('/delete', function(req, res) {
@@ -152,6 +190,18 @@ app.post('/create', function(req, res) {
   }
 });
 
+function updatePoke(id, name, health, attack, defense, speed, callback) {
+}
+
+function updateType(id, name, callback) {
+}
+
+function updateMove(id, name, status_effect, callback) {
+}
+
+function updateLocation(id, name, description, callback) {
+}
+
 //Delete functions for the page
 function delete_Poke(pokeName, callback) {
 	if (pokeName == "") return callback(200, "Please select a Pokemon!");
@@ -190,15 +240,15 @@ function delete_Move(moveName, callback) {
 }
 
 function delete_Location(locationName, callback) {
-        if (locationName == "") return callback(200, "Please select a Location!");
+  if (locationName == "") return callback(200, "Please select a Location!");
 
-        console.log("The name value was: " + locationName);
-        mysql.pool.query(
-        'DELETE FROM Locations WHERE name ="' + locationName + '";',
-        function(err, rows, fields) {
-        if (err) return callback(422, err);
-        return callback(200, "Location Deleted successfully!");
-    });
+  console.log("The name value was: " + locationName);
+  mysql.pool.query(
+    'DELETE FROM Locations WHERE name ="' + locationName + '";',
+    function(err, rows, fields) {
+    if (err) return callback(422, err);
+    return callback(200, "Location Deleted successfully!");
+  });
 }
 
 
@@ -379,10 +429,10 @@ function addLocation(name, desc, callback) {
   });
 }
 
-function getPageInfo(filterBy, sortBy, asc, callback) {
+function getPageInfo(col, sortBy, callback) {
   getPokemon(function(pokemon){
-    if (asc && sortBy) tools.sort(pokemon, sortBy, asc);
-    if (filterBy) pokemon.filter(function(typeFilter) { return typeFilter.types == filterBy; });
+    if (sortBy == "ASC") pokemon = tools.sort(pokemon, col, true);
+    else pokemon = tools.sort(pokemon, col, false);
     getTypes(function(types){
       getTypeRelations(function(typeRelations){
         getMoves(function(moves){
@@ -547,21 +597,36 @@ function getTypeRelations(callback) {
     if (err) throw "ERROR: " + err 
     
     var typeMap = new Map();
-    for (var j = 0; j < rows.length; j++) {
-      var row = rows[j];
+    for (var i = 0; i < rows.length; i++) {
+      var row = rows[i];
       if (typeMap.has(row.id)) {
-        typeMap.get(row.id).strong_against.push({id: row.strong_id, name: row.strong})
+        // add new entry to strong_against only if not already in list
+        var strongAgainst = typeMap.get(row.id).strong_against;
+        var strongExists = false;
+        for (var j = 0; j < strongAgainst.length; j++) {
+          if (strongAgainst[j].id == row.strong_id) strongExists = true;
+        }
+        if (!strongExists) strongAgainst.push({id: row.strong_id, name: row.strong});
 
-        typeMap.get(row.id).weak_against.push({id: row.weak_id, name: row.weak})
+        // add new entry to weak_against only if not already in list
+        var weakAgainst = typeMap.get(row.id).weak_against;
+        var weakExists = false;
+        for (var j = 0; j < weakAgainst.length; j++) {
+          if (weakAgainst[j].id == row.strong_id) weakExists = true;
+        }
+        if (!weakExists) weakAgainst.push({id: row.strong_id, name: row.strong});
+
+        // in this case, make new entry to map
       } else {
         typeMap.set(row.id, {
           name: row.name,
           id: row.id,
-          strong_against: [{id: row.strong_id, name: row.strong}],
-          weak_against: [{id: row.weak_id, name: row.weak}]
+          strong_against: [{id: row.strong_id, name: row.strong}], 
+          weak_against: [{id: row.weak_id, name: row.weak}], 
         });
       }
     }
+    // return only an array of objects because map no longer needed
     callback(Array.from(typeMap.values()));
   });
 }

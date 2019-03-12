@@ -14,7 +14,6 @@ function upperFirstChar(string) {
 }
 
 function upperEveryFirstChar(string) {
-
   var arr = string.split(" ")
   for (var i = 0; i < arr.length; i++) {
     arr[i] = upperFirstChar(arr[i]);
@@ -23,25 +22,25 @@ function upperEveryFirstChar(string) {
 }
 
 function get() {
-    var req = new XMLHttpRequest();
-    req.open("GET", "/create", true);
-    req.addEventListener("load", function(event) {
-      if (req.status >= 200 && req.status < 400) return req.body;
-      else window.alert(req.responseText) 
-    });
-    req.send(); 
+  var req = new XMLHttpRequest();
+  req.open("GET", "/create", true);
+  req.addEventListener("load", function(event) {
+    if (req.status >= 200 && req.status < 400) return req.body;
+    else window.alert(req.responseText) 
+  });
+  req.send(); 
 }
 
 function post(payload) {
-    var req = new XMLHttpRequest();
-    req.open("POST", "/create", true);
-    req.setRequestHeader("Content-Type", "application/json");
-    req.addEventListener("load", function(event) {
-      if (req.status >= 200 && req.status < 400) window.alert(req.responseText)
-      else window.alert(req.responseText) 
-    });
-    req.send(JSON.stringify(payload)); 
-    event.preventDefault;
+  var req = new XMLHttpRequest();
+  req.open("POST", "/create", true);
+  req.setRequestHeader("Content-Type", "application/json");
+  req.addEventListener("load", function(event) {
+    if (req.status >= 200 && req.status < 400) window.alert(req.responseText)
+    else window.alert(req.responseText) 
+  });
+  req.send(JSON.stringify(payload)); 
+  event.preventDefault;
 }
 
 function bindToggleBtns() {
@@ -94,20 +93,24 @@ function bindNavBtns() {
 function bindTypeSubmit() {
   document.getElementById("submit-type-relation-btn").addEventListener("click", function(event) {
     
-    var relation = document.getElementById("relation").value; 
+    let weak = document.getElementById("type2-relation").value; 
+    let strong = document.getElementById("type1-relation").value; 
+
+    let relation = document.getElementById("relation").value;
     if (relation === "weak") {
-      var weak = document.getElementById("type1").value; 
-      var strong = document.getElementById("type2").value; 
-    } else {
-      var weak = document.getElementById("type2").value; 
-      var strong = document.getElementById("type1").value; 
+      let weak = document.getElementById("type1-relation").value; 
+      let strong = document.getElementById("type2-relation").value; 
     }
+
+    console.log(weak);
+    console.log(strong);
 
     var payload = {
       action: "type-relation", 
       weak: weak, 
       strong: strong
     };
+    console.log(payload);
     post(payload);
   });
 

@@ -19,41 +19,60 @@
 <!-- html for each pokemon looks like this -->
 <div id="container-poke" class="container poke-list change-form">
 
-  <!-- options to sort by -->
   <div class="row">
     <div class="col-sm-12">
-      Sort by: 
-      <select id="dropdown" name="category">
-       <option value="name" selected>Name</option>
-       <option value="attack">Attack</option>
-       <option value="defense">Defense</option>
-       <option value="health">Health</option>
-       <option value="speed">Speed</option>
-      </select> 
-      <select id="sortBy" name="category">
-       <option value="ASC" selected>Ascending</option>
-       <option value="DESC">Descending</option>
-      </select> 
-      <button id="sortBtn" class="btn btn-primary">Sort</button>
+      Chooose Pokemon to Change: 
+      <select id="poke-id"> 
+        {{#each pokemon}}
+        <option value="{{this.id}}"> {{this.name}} </option>
+        {{/each}}
+      <select/>
     </div>
   </div>
-  
-  {{#each pokemon}}
-  <div class="row striped">
+
+  <div class="row">
+    <div class="col-sm-6">
+      <h3> Stats </h3>
+      <div class="form-group">
+        <label for="poke-name"> Name </label>
+        <input class="form-control" id="poke-name" placeholder="Charizard">
+        <label for="poke-health"> Health </label>
+        <input class="form-control" id="poke-health" placeholder="100">
+        <label for="poke-attack"> Attack </label>
+        <input class="form-control" id="poke-attack" placeholder="20">
+        <label for="poke-defense"> Defense </label>
+        <input class="form-control" id="poke-defense" placeholder="15">
+        <label for="poke-speed"> Speed </label>
+        <input class="form-control" id="poke-speed" placeholder="30">
+        <label for="poke-description"> Description </label>
+        <textarea id="poke-description" class="form-control" style='min-width:100%'> </textarea> 
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
     <div class="col-sm-12">
-      <span class="poke-header"> <strong>{{this.name}}</strong> </span>
+      <button class="btn btn-success"> Submit </button> 
+    </div>
+  </div>
+
+  {{#each pokemon}}
+  <div value="{{this.id}}" class="poke row striped">
+    <div class="col-sm-12">
+      <span class="poke-name" value="{{this.name}}"> <strong>{{this.name}}</strong> </span>
     </div>
 
     <!-- Statistics and Evolutions here-->
     <div class="col-sm-3">
       <span class="poke-header"> Statistics </span>
-      <ul>
-        <li> Attack: {{this.attack}}</li>
-        <li> Defense: {{this.defense}}</li>
-        <li> Health: {{this.health}}</li>
-        <li> Speed: {{this.speed}}</li>
-        <li> Evolves from: {{this.evolves_from}} </li>
-        <li> Evolves to: {{this.evolves_to}} </li>
+      <ul class="poke-stats">
+        <li class="health" value="{{this.health}}"> Health: {{this.health}}</li>
+        <li class="attack" value="{{this.attack}}"> Attack: {{this.attack}}</li>
+        <li class="defense" value="{{this.defense}}"> Defense: {{this.defense}}</li>
+        <li class="speed" value="{{this.speed}}"> Speed: {{this.speed}}</li>
+        <li class="description" value="{{this.description}}"></li>
+        <li value="{{this.evolves_from}}"> Evolves from: {{this.evolves_from}} </li>
+        <li value="{{this.evolves_to}}"> Evolves to: {{this.evolves_to}} </li>
       </ul>
     </div>
 
@@ -93,76 +112,174 @@
 
 <!-- Type information here -->
 <div id="container-type" class="container change-form"style="display:none;">
-  <table class="table">
-    <thead class="thead-dark">
-      <tr>
-        <th scope="col">Name</th>
-        <th scope="col">Weak Against</th>
-        <th scope="col">Strong Against</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each typeRelations}}
-      <tr value="{{this.id}}">
-        <td> {{this.name}} </td>
-        <td> 
-          <ul>
-          {{#each weak_against}}
-          <li value="{{this.id}}"> {{this.name}}</li>
+
+  <div class="row">
+    <div class="col-sm-12">
+      Chooose Type to Change: 
+      <select id="type-id"> 
+        {{#each types}}
+        <option value="{{this.id}}"> {{this.name}} </option>
+        {{/each}}
+      <select/>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12">
+      <h3> Update Name </h3>
+      <div class="form-group">
+        <input id="type-name" class="form-control" placeholder="">
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12">
+      <button class="btn btn-success"> Change Name </button> 
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12">
+      <table class="table">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Weak Against</th>
+            <th scope="col">Strong Against</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each typeRelations}}
+          <tr value="{{this.id}}">
+            <td> {{this.name}} </td>
+            <td> 
+              <ul>
+              {{#each weak_against}}
+              <li value="{{this.id}}"> {{this.name}}</li>
+              {{/each}}
+              </ul>
+            </td>
+            <td> 
+              <ul>
+              {{#each strong_against}}
+              <li value="{{this.id}}"> {{this.name}}</li>
+              {{/each}}
+              </ul>
+            </td>
+          </tr>
           {{/each}}
-          </ul>
-        </td>
-        <td> 
-          <ul>
-          {{#each strong_against}}
-          <li value="{{this.id}}"> {{this.name}}</li>
-          {{/each}}
-          </ul>
-        </td>
-      </tr>
-      {{/each}}
-    </tbody>
-  </table>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
 </div>
 
 <!-- Move information here -->
 <div id="container-move" class="container change-form" style="display:none;">
-  <table class="table">
-    <thead class="thead-dark">
-      <tr>
-        <th scope="col">Name</th>
-        <th scope="col">Status Effect</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each moves}}
-      <tr>
-        <td>{{this.name}}</td>
-        <td>{{this.status_effect}}</td>
-      </tr>
-      {{/each}}
-    </tbody>
-  </table>
+  <div class="row">
+    <div class="col-sm-12">
+      Choose Move to Update: 
+      <select id="move-id"> 
+        <option value="null"> None </option>
+        {{#each moves}}
+        <option value="{{this.id}}"> {{this.name}} </option>
+        {{/each}}
+      <select/>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-3">
+      <h3> Name </h3>
+      <div class="form-group">
+        <input id="move-name" class="form-control" placeholder="">
+      </div>
+    </div>
+    <div class="col-sm-9">
+      <h3> Status Effect </h3>
+      <div class="form-group">
+        <input id="move-status" class="form-control" placeholder="">
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <button class="btn btn-success"> Submit </button> 
+  </div>
+
+  <div class="row">
+    <table class="table">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Status Effect</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each moves}}
+        <tr value="{{this.id}}">
+          <td>{{this.name}}</td>
+          <td>{{this.status_effect}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
 </div>
 
 <!-- Location information here -->
 <div id="container-location" class="container change-form" style="display:none;">
-  <table class="table">
-    <thead class="thead-dark">
-      <tr>
-        <th scope="col">Name</th>
-        <th scope="col">Description </th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each locations}}
-      <tr>
-        <td>{{this.name}}</td>
-        <td>{{this.description}} </td>
-      </tr>
-      {{/each}}
-    </tbody>
-  </table>
+  <div class="row">
+    <div class="col-sm-12">
+      Choose City to Change: 
+      <select id="location-id"> 
+        <option value="null"> None </option>
+        {{#each locations}}
+        <option value="{{this.id}}"> {{this.name}} </option>
+        {{/each}}
+      <select/>
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="col-sm-3">
+      <h3> Name </h3>
+      <div class="form-group">
+        <input id="location-name" class="form-control" placeholder="incinerate">
+      </div>
+    </div>
+    <div class="col-sm-9">
+      <h3> Description </h3>
+      <div class="form-group">
+        <textarea id="location-description" class="form-control" style='min-width:100%'></textarea> 
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <button class="btn btn-success"> Submit Change </button> 
+  </div>
+  
+  <div class="row">
+    <div class="col-sm-12">
+      <table class="table">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Description </th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each locations}}
+          <tr value="{{this.id}}">
+            <td>{{this.name}}</td>
+            <td>{{this.description}} </td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
 
 <script src="js/update.js"></script>

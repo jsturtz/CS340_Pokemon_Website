@@ -2,9 +2,9 @@ var exports = module.exports = {};
 exports.sort = sort;
 
 function sort (lst, attr, asc=true) {
-  if (rows.length === 1) {
+  if (lst.length === 1) {
     // return once we hit an array with a single item
-    return rows;
+    return lst;
   }
 
   const middle = Math.floor(lst.length / 2); // get the middle item of the rowsay rounded down

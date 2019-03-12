@@ -23,21 +23,33 @@
   <div class="row">
     <div class="col-sm-12">
       Sort by: 
-      <select id="dropdown" name="category">
+      <select id="sort-dropdown" name="category" value="{{this.sortCol}}">
        <option value="name" selected>Name</option>
        <option value="attack">Attack</option>
        <option value="defense">Defense</option>
        <option value="health">Health</option>
        <option value="speed">Speed</option>
       </select> 
-      <select id="sortBy" name="category">
-       <option value="ASC" selected>Ascending</option>
-       <option value="DESC">Descending</option>
-      </select> 
+      <select id="sortBy" name="category" value="{{this.sortBy}}">
+       <option value="ASC" >Ascending</option>
+       <option value="DESC" >Descending</option>
+      </select>
       <button id="sortBtn" class="btn btn-primary">Sort</button>
     </div>
   </div>
   
+  <!-- <div class="row"> -->
+  <!--   <div class="col-sm-12"> -->
+  <!--     Filter by Type: -->
+  <!--     <select id="filter-dropdown" name="category"> -->
+  <!--       <option value="null"> None </option> -->
+  <!--       {{#each types}} -->
+  <!--       <option value="{{this.id}}"> {{this.name}}</option> -->
+  <!--       {{/each}} -->
+  <!--     </select> --> 
+  <!--   </div> -->
+  <!-- </div> -->
+
   {{#each pokemon}}
   <div class="row striped">
     <div class="col-sm-12">

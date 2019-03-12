@@ -5,20 +5,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
 });
 
 function dropDownBox() {
-    document.getElementById("sortBtn").addEventListener("click", function(event) {
-        var url = "/read?" + 
-            "col=" + document.getElementById("dropdown").value + 
-            "&sortBy=" + document.getElementById("sortBy").value;
-        console.log(url);
-        var req = new XMLHttpRequest();
-        req.open("GET", url, true);
-        // req.addEventListener("load", function(event) {
-        //     if (req.status >= 200 && req.status < 400) {
-
-        //     } else { throw "ERROR: " + req.status}
-        // });
-        req.send(null);
-    });
+  document.getElementById("sortBtn").addEventListener("click", function(event) {
+    var url = "/read?col=" + document.getElementById("sort-dropdown").value;
+    url += "&sortBy=" + document.getElementById("sortBy").value;
+    console.log(url);
+    window.location.href = url;
+  });
 }
 
 // controls which form to display
