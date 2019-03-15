@@ -39,9 +39,13 @@ app.get('/read',function(req,res){
   getPageInfo(req.query.col, req.query.sortBy, function(context) {
     context.title = "Read";
     context.title_description = "See the Contents of the Database";
+    
+    for (let i = 0; i < context.typeRelations.length; i++) {
+      let row = context.typeRelations[i];
+      console.log(row);
+    }
     context.sortCol = req.query.col;
     context.sortBy = req.query.sortBy;
-    console.log(context);
     res.render('read', context);
   });
 });

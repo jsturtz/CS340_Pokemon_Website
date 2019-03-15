@@ -12,8 +12,33 @@
           This link provides the user with the ability to add new entries to 
           the database. There are four entities that can be added: pokemon, 
           types, moves, and locations. Since pokemon must be associated
-          with these other three entities, these entities must be added before
-          pokemon can be added.
+          with these other three entities, you should first add any 
+          Types, Moves, or Locations associated with a new Pokemon that 
+          you wish to add. The assignment specification requires that 
+          our website be designed so that it is possible to insert into
+          every table individually. Our website accomplishes this on the
+          /Create subpage. </br>
+
+          Under the Types button, the user can insert a new Type into the
+          Types table and they can also insert a new entry in the 
+          Types_Strength table. Under the Moves button, the user can
+          insert a new move into the Moves table. Under the 
+          Locations button, the user can insert a new location
+          into the Locations table.
+          Finally, under the Pokemon button,
+          the user can insert new Pokemon into the
+          Pokemon table along with the 
+          relations between this new pokemon and the other three 
+          entities. The user can choose to associate the pokemon
+          with up to four Moves along with the levels at which
+          the pokemon learns those moves (i.e. insert into
+          Pokemon_Moves), up to two Types (i.e. insert into
+          Pokemon_Types), and
+          as many Locations as the user desires (i.e. insert into
+          Pokemon_Locations). Finally, the user can also add 
+          evolutions between this new Pokemon and other pokemons,
+          which inserts into Evolutions.
+
         </li>
         <li class="list-group-item"> 
           <a href="/read"><strong>Read</strong></a> <br>
