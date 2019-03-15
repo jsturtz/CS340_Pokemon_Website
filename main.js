@@ -10,7 +10,7 @@ var app = express();
 // import handlebars and bodyParser
 var handlebars = require('express-handlebars').create({defaultLayout:'main'});
 app.engine('handlebars', handlebars.engine);
-app.set('port', 23391);
+app.set('port', 3391);
 app.set('view engine', 'handlebars');
 
 // tells app to either use urlencoded or json depending on what it parses
@@ -296,7 +296,16 @@ function delete_Location(locationName, callback) {
 // are arrays filled with IDs. Moves is an array filled with
 // an object with two fields: id and level. 
 function addPokemon(D, callback) {
-  // make sure name is unique
+  if ((D.attack < 0) || (D.health < 1) || (D.speed < 0) || (D.defense < 0))
+   return callback(200, "Please enter positive values for stats!"); 
+
+  for (var i = 0; i < D.moves.length; i++)
+  {
+    if (D.moves[i].level < 0)
+     return callback(200, "Move Levels cannot be negative!");
+  }
+
+// make sure name is unique
   mysql.pool.query(
     "SELECT name FROM Pokemon;", 
     function(err, rows, fields) {
