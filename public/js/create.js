@@ -93,24 +93,21 @@ function bindNavBtns() {
 function bindTypeSubmit() {
   document.getElementById("submit-type-relation-btn").addEventListener("click", function(event) {
     
-    let weak = document.getElementById("type2-relation").value; 
-    let strong = document.getElementById("type1-relation").value; 
+    var weak = document.getElementById("type2-relation").value; 
+    var strong = document.getElementById("type1-relation").value; 
 
-    let relation = document.getElementById("relation").value;
+    var relation = document.getElementById("relation").value;
     if (relation === "weak") {
-      let weak = document.getElementById("type1-relation").value; 
-      let strong = document.getElementById("type2-relation").value; 
+      console.log("Relation is indeed weak");
+      var weak = document.getElementById("type1-relation").value; 
+      var strong = document.getElementById("type2-relation").value; 
     }
-
-    console.log(weak);
-    console.log(strong);
 
     var payload = {
       action: "type-relation", 
       weak: weak, 
       strong: strong
     };
-    console.log(payload);
     post(payload);
   });
 

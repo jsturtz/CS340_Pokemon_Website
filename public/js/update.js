@@ -81,12 +81,12 @@ function bindCtrlBtns() {
 }
 
 function bindPokeUpdateBtn() {
-   let container = document.getElementById("container-poke");
-   container.querySelector("button").addEventListener("click", function(event) {
-    console.log('this code is hit');
+ let container = document.getElementById("container-poke");
+  container.querySelector("button").addEventListener("click", function(event) {
+  console.log('this code is hit');
     let payload = {
-      action: "pokemon", 
-      id: document.getElementById("poke-id").value, 
+      action: "type", 
+      id: document.getElementById("type-id").value, 
       name: upperEveryFirstChar(document.getElementById("poke-name").value), 
       health: upperEveryFirstChar(document.getElementById("poke-health").value), 
       attack: upperEveryFirstChar(document.getElementById("poke-attack").value), 
@@ -94,17 +94,16 @@ function bindPokeUpdateBtn() {
       speed: upperEveryFirstChar(document.getElementById("poke-speed").value)
     };
     console.log(payload);
-     post(payload);
+    // post(payload);
     event.preventDefault;
  });
 
 }
 
 function bindTypeUpdateBtn() {
-  let container = document.getElementById("container-type");
+ let container = document.getElementById("container-type");
   container.querySelector("button").addEventListener("click", function(event) {
- 
-    console.log('this code is hit');
+  console.log('this code is hit');
     let payload = {
       action: "type", 
       id: document.getElementById("type-id").value, 
@@ -203,3 +202,37 @@ function moveSelection() {
     }
   });
 }
+
+// function bindTogglePoke() {
+//   // controls toggling of change forms
+//   let onToggles = document.getElementsByClassName("toggle-on");
+//   for (let i = 0; i < onToggles.length; i++) {
+//     let btn = onToggles[i]
+//     btn.addEventListener("click", function(event) {
+//       // hide first div "poke-display" found before this element
+//       let toHide = btn.parentNode.parentNode;
+//       toHide.setAttribute("style", "display:none;"); 
+
+//       // un-hide first div "add-form" found after this element
+//       let toDisplay = toHide.nextElementSibling;
+//       toDisplay.setAttribute("style", "display:block;");
+//     });
+//   }
+// }
+
+// function bindToggleType() {
+//   let btns = document.getElementsByClassName("type-btn");
+//   for (let i = 0; i < btns.length; i++) {
+//     btns[i].addEventListener("click", function(event) {
+//       let weakCol = btns[i].parentElement.previousElementSibling;
+//       let strongCol = weakCol.previousElementSibling;
+//       let changeForm = document.getElementById("type-change");
+//       changeForm.style = "display:block;";
+//       weakCol.innerHTML = changeForm.outerHTML;
+//       strongCol.innerHTML = changeForm.outerHTML;
+//       weakCol.value = weakVal;
+//       strongCol.value = strongVal;
+//     });
+//   }
+// }
+    
