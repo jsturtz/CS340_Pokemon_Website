@@ -10,7 +10,7 @@ var app = express();
 // import handlebars and bodyParser
 var handlebars = require('express-handlebars').create({defaultLayout:'main'});
 app.engine('handlebars', handlebars.engine);
-app.set('port', 3391);
+app.set('port', 23391);
 app.set('view engine', 'handlebars');
 
 // tells app to either use urlencoded or json depending on what it parses
@@ -191,7 +191,12 @@ app.post('/create', function(req, res) {
 });
 
 function updatePoke(id, name, health, attack, defense, speed, callback) {
-  if (name == "") return callback(200, "Please select a Pokemon!");
+  if ((name == "") || (health == "") || (attack =="") || (defense =="") || (speed ==""))
+  return callback(200, "Please fill out all values!");
+  console.log("health: " + health);
+
+  if ((health < 0) || (attack < 0) || (defense < 0) || (speed < 0))
+  return callback(200, "Please enter positve values for stats");
 
   mysql.pool.query(
   'UPDATE Pokemon SET name= "' + name + '" , health= "' + health + '" , attack = ' + attack +
