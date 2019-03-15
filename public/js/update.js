@@ -85,8 +85,8 @@ function bindPokeUpdateBtn() {
   container.querySelector("button").addEventListener("click", function(event) {
   console.log('this code is hit');
     let payload = {
-      action: "type", 
-      id: document.getElementById("type-id").value, 
+      action: "pokemon", 
+      id: document.getElementById("poke-id").value, 
       name: upperEveryFirstChar(document.getElementById("poke-name").value), 
       health: upperEveryFirstChar(document.getElementById("poke-health").value), 
       attack: upperEveryFirstChar(document.getElementById("poke-attack").value), 
@@ -94,7 +94,7 @@ function bindPokeUpdateBtn() {
       speed: upperEveryFirstChar(document.getElementById("poke-speed").value)
     };
     console.log(payload);
-    // post(payload);
+    post(payload);
     event.preventDefault;
  });
 
