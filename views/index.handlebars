@@ -1,70 +1,585 @@
-<!-- code for body goes here -->
-<div class="container">
-  <div class="row">
-    <div class="col-sm-12">
-      <h3> Description </h3>
-      <span> This website represents a joint project between Austin Henry
-      and Jordan Sturtz to represent a pokedex database interface. It
-      has basic CRUD functionality. The subpages are as follows:</span> <br>
-      <ul class="list-group">
-        <li class="list-group-item"> 
-          <a href="/create"><strong>Create</strong></a> <br>
-          This link provides the user with the ability to add new entries to 
-          the database. There are four entities that can be added: pokemon, 
-          types, moves, and locations. Since pokemon must be associated
-          with these other three entities, you should first add any 
-          Types, Moves, or Locations associated with a new Pokemon that 
-          you wish to add. The assignment specification requires that 
-          our website be designed so that it is possible to insert into
-          every table individually. Our website accomplishes this on the
-          /Create subpage. </br>
+<!-- code for header begins here -->
+<div id="header" class="container-fluid">
+  <div class="container-fluid">
+    <div class="row"> <div class="col-sm-6">
+        <div class="p-2 bd-highlight">
+          <strong style="padding-left:10px;" class="blk" >Medical App</strong> </br >
+          <span style="padding-left:10px;" class="dk-blue">CS361 - Group Project </span>
+        </div>
+      </div>
 
-          Under the Types button, the user can insert a new Type into the
-          Types table and they can also insert a new entry in the 
-          Types_Strength table. Under the Moves button, the user can
-          insert a new move into the Moves table. Under the 
-          Locations button, the user can insert a new location
-          into the Locations table.
-          Finally, under the Pokemon button,
-          the user can insert new Pokemon into the
-          Pokemon table along with the 
-          relations between this new pokemon and the other three 
-          entities. The user can choose to associate the pokemon
-          with up to four Moves along with the levels at which
-          the pokemon learns those moves (i.e. insert into
-          Pokemon_Moves), up to two Types (i.e. insert into
-          Pokemon_Types), and
-          as many Locations as the user desires (i.e. insert into
-          Pokemon_Locations). Finally, the user can also add 
-          evolutions between this new Pokemon and other pokemons,
-          which inserts into Evolutions.
+      <div class="col-sm-6">
+        <div class="d-flex flex-row align-items-center justify-content-end">
+          <div class="p-2 bd-highlight">
+            <ul class="nav">
+              <li class="nav-item">
+                <a class="nav-link blk" href="/"><strong>Index</strong></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-        </li>
-        <li class="list-group-item"> 
-          <a href="/read"><strong>Read</strong></a> <br>
-          This link provides the user with the ability to read the existing
-          data in the database. It will display them according to entity
-          type: pokemon, type, moves, and location. In addition, it will
-          display pokemon together with their types, their moves, and the
-          locations in which they can be found. 
-        </li>
-        <li class="list-group-item"> 
-          <a href="/update"><strong>Update</strong></a> <br>
-          This link provides the user with the ability to update existing
-          entries. As of right now, the update buttons have not been 
-          implemented. This is because such code will become superfluous
-          when integrated with the backend. 
-        </li>
-        <li class="list-group-item"> 
-          <a href="/delete"><strong>Delete</strong></a> <br>
-          This link provides the user with the ability to delete
-          entries. As of right now, the delete buttons have not been 
-          implemented. This is because such code will become superfluous
-          when integrated with the backend. 
-        </li>
-      </ul>
+  <div class="container"> 
+    <div class="row align-items-center">
+      <div class="col-sm-12 text-center">
+        <h1 class="blk"> Health History Questionnaire </h1> 
+        <div class="dk-blue"> Story 1 </div>
+      </div>
     </div>
   </div>
 </div>
 
-<script src="js/read.js"></script>
+<div class="container">
+  <div class="form-group">
+  <h5> Biographical Information </h5>
+    <div class="row">
+      <div class="col-sm-2">
+        <label> 
+          First name 
+          <input class="form-control"> </input>
+        </label>
+      </div>
+      <div class="col-sm-1">
+        <label> 
+          M 
+          <input class="form-control"> </input>
+        </label>
+      </div>
+      <div class="col-sm-2">
+        <label> Last name <input class="form-control"> </input> </label>
+      </div>
+      <div class="col-sm-3">
+        <label> DoB <input class="form-control" type="date" value="2011-08-19"> </label>
+      </div>
+      <div class="col-sm-4">
+        <label> Gender assigned at birth
+          <div class = "form-check">
+            <label class="form-check-label"> 
+              <input type="checkbox"> </input> M </label>
+            <label class="form-check-label">
+              <input type="checkbox"> </input> F </label>
+          </div>
+        </label>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <label> Marital Status 
+          <div class = "form-check">
+            <label class="form-check-label"> 
+              <input type="checkbox"> </input> Single </label>
+            <label class="form-check-label">
+              <input type="checkbox"> </input> Partnered </label>
+            <label class="form-check-label"> 
+              <input type="checkbox"> </input> Married </label>
+            <label class="form-check-label"> 
+              <input type="checkbox"> </input> Divorced </label>
+            <label class="form-check-label"> 
+              <input type="checkbox"> </input> Separated </label>
+            <label class="form-check-label"> 
+              <input type="checkbox"> </input> Widowed </label>
+          </div>
+        </label>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-3">
+        <label> Previous or referring doctor <input class="form-control"> </input> </label>
+      </div>
+      <div class="col-sm-3">
+        <label> Date of last visit <input class="form-control" type="date" value="2011-08-19"> </label>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="form-group">
+  <h5> Health History </h5>
+    <div class="row">
+      <div class="col-sm-12">
+        <label> Childhood illnesses 
+          <div class = "form-check">
+            <label class="form-check-label"> 
+              <input type="checkbox"> </input> Measles </label>
+            <label class="form-check-label">
+              <input type="checkbox"> </input> Mumps </label>
+            <label class="form-check-label"> 
+              <input type="checkbox"> </input> Rubella </label>
+            <label class="form-check-label"> 
+              <input type="checkbox"> </input> Chickenpox </label>
+            <label class="form-check-label"> 
+              <input type="checkbox"> </input> Rheumatic Fever </label>
+            <label class="form-check-label"> 
+              <input type="checkbox"> </input> Polio </label>
+          </div>
+        </label>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-6">
+        <table class="table table-sm">
+          <thead>
+            <tr>
+              <th scope="col">Immunization</th>
+              <th scope="col">Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td> <input type="checkbox"> </input> Tetanus </td>
+              <td> <input class="form-control" type="date" value=""> </input> </td>
+            </tr>
+            <tr>
+              <td> <input type="checkbox"> </input> Hepatitis </td>
+              <td> <input class="form-control" type="date" value=""> </input> </td>
+            </tr>
+            <tr>
+              <td> <input type="checkbox"> </input> Influenza </td>
+              <td> <input class="form-control" type="date" value=""> </input> </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-sm-6">
+        <table class="table table-sm">
+          <thead>
+            <tr>
+              <th scope="col">Immunization</th>
+              <th scope="col">Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td> <input type="checkbox"> </input> Pneumonia </td>
+              <td> <input class="form-control" type="date" value=""> </input> </td>
+            </tr>
+            <tr>
+              <td> <input type="checkbox"> </input> Chickenpox </td>
+              <td> <input class="form-control" type="date" value=""> </input> </td>
+            </tr>
+            <tr>
+              <td> <input type="checkbox"> </input> MMR </td>
+              <td> <input class="form-control" type="date" value=""> </input> </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <table class="table table-sm">
+          <thead>
+            <tr>
+              <th scope="col">List of medical problems diagnosed by doctors</th>
+              <th scope="col">Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td> <input class="form-control"> </input> </td>
+              <td> <input class="form-control" type="date" value=""> </input> </td>
+            </tr>
+          </tbody>
+        </table>
+        <button class="btn btn-primary"> Add Row</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6">
+        <table class="table table-sm">
+          <thead>
+            <tr>
+              <th scope="col">Surgeries</th>
+              <th scope="col">Reason</th>
+              <th scope="col">Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td> <input class="form-control"> </input> </td>
+              <td> <input class="form-control"> </input> </td>
+              <td> <input class="form-control" type="date" value=""> </input> </td>
+           </tr>
+          </tbody>
+        </table>
+        <button class="btn btn-primary"> Add Row</button>
+      </div>
+      <div class="col-sm-6">
+        <table class="table table-sm">
+          <thead>
+            <tr>
+              <th scope="col">Other Hospitalizations</th>
+              <th scope="col">Reason</th>
+              <th scope="col">Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td> <input class="form-control"> </input> </td>
+              <td> <input class="form-control"> </input> </td>
+              <td> <input class="form-control" type="date" value=""> </input> </td>
+           </tr>
+          </tbody>
+        </table>
+        <button class="btn btn-primary"> Add Row</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <label> Have you ever had a blood transfusion?
+          <div class = "form-check">
+            <label class="form-check-label"> 
+              <input type="checkbox"> </input> Y </label>
+            <label class="form-check-label">
+              <input type="checkbox"> </input> N </label>
+          </div>
+        </label>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <strong> List your prescribed drugs and over the counter drugs, such as vitamins and inhalers </strong> </br>
+        <table class="table table-sm">
+          <thead>
+            <tr>
+              <th scope="col">Name of Drug</th>
+              <th scope="col">Strength</th>
+              <th scope="col">Frequency Taken</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td> <input class="form-control"> </input> </td>
+              <td> <input class="form-control"> </input> </td>
+              <td> <input class="form-control"> </input> </td>
+           </tr>
+          </tbody>
+        </table>
+        <button class="btn btn-primary"> Add Row</button>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <strong> Allergies to Medications </strong> </br>
+        <table class="table table-sm">
+          <thead>
+            <tr>
+              <th scope="col">Name of Drug</th>
+              <th scope="col">Reaction you had</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td> <input class="form-control"> </input> </td>
+              <td> <input class="form-control"> </input> </td>
+           </tr>
+          </tbody>
+        </table>
+        <button class="btn btn-primary"> Add Row</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="form-group">
+  <h5> Health Habits and Personal Safety </h5>
+
+    <div class="container"> 
+    <strong> Exercise </strong>
+      <div class="row">
+        <div class="col-sm-12">
+          <label> Exercise 
+            <div class = "form-check">
+              <label class="form-check-label"> 
+                <input type="checkbox"> </input> Sedentary </label>
+              <label class="form-check-label">
+                <input type="checkbox"> </input> Mild Exercise </label>
+              <label class="form-check-label"> 
+                <input type="checkbox"> </input> Occasional vigorous exercise </label>
+              <label class="form-check-label"> <input type="checkbox"> </input> Regular vigorous exercise </label>
+              <label class="form-check-label"> 
+            </div>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="container"> 
+    <strong> Diet </strong>
+      <div class="row">
+        <div class="col-sm-6">
+          <label> Are you dieting? 
+            <div class = "form-check">
+              <label class="form-check-label"> 
+                <input type="checkbox"> </input> Y </label>
+              <label class="form-check-label">
+                <input type="checkbox"> </input> N </label>
+            </div>
+          </label>
+        </div>
+
+        <div class="col-sm-6">
+          <label> If yes, are you on a physician prescribed medical diet?
+            <div class = "form-check">
+              <label class="form-check-label"> 
+                <input type="checkbox"> </input> Y </label>
+              <label class="form-check-label">
+                <input type="checkbox"> </input> N </label>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-12">
+          <label> # of meals you eat in an average day?
+            <input class="form-control"> </input> </label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-4">
+          <label> Rank Salt Intake
+            <div class = "form-check">
+              <label class="form-check-label"> 
+                <input type="checkbox"> </input> Hi </label>
+              <label class="form-check-label">
+                <input type="checkbox"> </input> Med </label>
+              <label class="form-check-label">
+                <input type="checkbox"> </input> Low </label>
+            </div>
+          </label>
+        </div>
+        <div class="col-sm-4">
+          <label> Rank Fat Intake
+            <div class = "form-check">
+              <label class="form-check-label"> 
+                <input type="checkbox"> </input> Hi </label>
+              <label class="form-check-label">
+                <input type="checkbox"> </input> Med </label>
+              <label class="form-check-label">
+                <input type="checkbox"> </input> Low </label>
+            </div>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="container"> 
+    <strong> Caffeine </strong>
+      <div class="row">
+        <div class="col-sm-6">
+          <label> Which do you drink?
+            <div class = "form-check">
+              <label class="form-check-label"> 
+                <input type="checkbox"> </input> None </label>
+              <label class="form-check-label"> 
+                <input type="checkbox"> </input> Coffee </label>
+              <label class="form-check-label">
+                <input type="checkbox"> </input> Tea </label>
+              <label class="form-check-label">
+                <input type="checkbox"> </input> Cola </label>
+            </div>
+          </label>
+        </div>
+
+        <div class="col-sm-6">
+          <label> How many drinks per week?
+            <input class="form-control"> </input> </label>
+        </div>
+      </div>  
+    </div>  
+
+    <div class="container"> 
+    <strong> Alcohol </strong>
+      <div class="row">
+        <div class="col-sm-4">
+          <label> Do you drink alcohol?
+            <div class = "form-check">
+              <label class="form-check-label"> 
+                <input type="checkbox"> </input> Y </label>
+              <label class="form-check-label">
+                <input type="checkbox"> </input> N </label>
+            </div>
+          </label>
+        </div>
+        <div class="col-sm-4">
+          <label> If yes, what kind?
+            <input class="form-control"> </input> </label>
+        </div>
+        <div class="col-sm-4">
+          <label> How many drinks per week?
+            <input class="form-control"> </input> </label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-6">
+          <label> Are you concerned about the amount you drink?
+            <div class = "form-check">
+              <label class="form-check-label"> 
+                <input type="checkbox"> </input> Y </label>
+              <label class="form-check-label">
+                <input type="checkbox"> </input> N </label>
+            </div>
+          </label>
+        </div>
+
+        <div class="col-sm-6">
+          <label> Have you ever considered stopping?
+            <div class = "form-check">
+              <label class="form-check-label"> 
+                <input type="checkbox"> </input> Y </label>
+              <label class="form-check-label">
+                <input type="checkbox"> </input> N </label>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-6">
+          <label> Have you every experienced blackouts?
+            <div class = "form-check">
+              <label class="form-check-label"> 
+                <input type="checkbox"> </input> Y </label>
+              <label class="form-check-label">
+                <input type="checkbox"> </input> N </label>
+            </div>
+          </label>
+        </div>
+
+        <div class="col-sm-6">
+          <label> Are you prone to "binge drinking"?
+            <div class = "form-check">
+              <label class="form-check-label"> 
+                <input type="checkbox"> </input> Y </label>
+              <label class="form-check-label">
+                <input type="checkbox"> </input> N </label>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-6">
+          <label> Do you drive after drinking?
+            <div class = "form-check">
+              <label class="form-check-label"> 
+                <input type="checkbox"> </input> Y </label>
+              <label class="form-check-label">
+                <input type="checkbox"> </input> N </label>
+            </div>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="container"> 
+    <strong> Tobacco </strong>
+      <div class="row">
+        <div class="col-sm-4">
+          <label> Do you use tobacco?
+            <div class = "form-check">
+              <label class="form-check-label"> 
+                <input type="checkbox"> </input> Y </label>
+              <label class="form-check-label">
+                <input type="checkbox"> </input> N </label>
+            </div>
+          </label>
+        </div>
+
+        <div class="col-sm-4">
+          <label> # of years
+            <input class="form-control"> </input> </label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-6">
+        <table class="table table-sm">
+          <thead>
+            <tr>
+              <th scope="col">Type</th>
+              <th scope="col">Qty</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td> <input type="checkbox"> </input> Cigarettes </td>
+              <td> <label> pks/day <input class="form-control"> </input> </label>
+            </tr>
+            <tr>
+              <td> <input type="checkbox"> </input> Chew </td>
+              <td> <label> #/day <input class="form-control"> </input> </label>
+            </tr>
+          </tbody>
+        </table>
+        </div>
+        <div class="col-sm-6">
+        <table class="table table-sm">
+          <thead>
+            <tr>
+              <th scope="col">Type</th>
+              <th scope="col">Qty</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td> <input type="checkbox"> </input> Pipe </td>
+              <td> <label> #/day <input class="form-control"> </input> </label>
+            </tr>
+            <tr>
+              <td> <input type="checkbox"> </input> Cigars </td>
+              <td> <label> #/day <input class="form-control"> </input> </label>
+            </tr>
+          </tbody>
+        </table>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<!-- code for footer goes here -->
+<div id="footer" class="container-fluid">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="single-post-content-wrapper p-3">
+          <span class="wht" > 
+            This represents Group 24's group project.
+                    </span>
+        </div>
+      </div>
+      <div class="w-100"></div>
+      <div class="col-sm-12">
+          <div class="d-flex flex-row align-items-center justify-content-center">
+            <div class="p-2 bd-highlight">
+              <ul class="nav">
+                <li class="nav-item">
+                  <a class="nav-link wht" href="/"><strong>Index</strong></a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="js/index.js"></script>
