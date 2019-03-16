@@ -199,7 +199,8 @@ app.post('/create', function(req, res) {
 });
 
 function updatePoke(data, callback) {
-  if ((data.name == "") || (data.health == "") || (data.attack =="") || (data.defense =="") || (data.speed ==""))
+  if (!data.id) return callback(422, "Please choose a pokemon to change");
+  if (!(data.name) || !(data.health) || !(data.attack) || !(data.defense) || !(data.speed))
   return callback(422, "Please fill out all values!");
 
   if ((data.health < 0) || (data.attack < 0) || (data.defense < 0) || (data.speed < 0))
@@ -224,43 +225,72 @@ function updatePoke(data, callback) {
       console.log('reaches this point');
       if (err) return callback(422, err);
       
-      if (!data.evolves_to && !data.evolves_from) {
-        console.log('both are false');
-        return callback(200, "Pokemon Updated Successfully!");
-      }
+      if (data.evolves_to) {
+        mysql.pool.query('SELECT from_poke FROM Evolutions', function(err, from_pokes, fields) {
+          var exists = false;
+          for (var i = 0; i < from_pokes.length; i++) {
+            if (from_pokes[i].from_poke == data.id) exists = true;
+          }
 
-      // this is repetitive because I suck at asynchronous callback hell
-      if (data.evolves_to && data.evolves_from) {
-        console.log('both are true');
-        mysql.pool.query(
-          'UPDATE Evolutions SET to_poke= "' + data.evolves_to + '" WHERE from_poke = "' + data.id + '";', 
-          function(err, rows, fields){
-          if (err) return callback(422, err);
+          if (exists) {
+            mysql.pool.query(
+            'UPDATE Evolutions SET to_poke= "' + data.evolves_to + '" WHERE from_poke = "' + data.id + '";', 
+            function(err, rows, fields){
+              if (err) console.log(err);
+            });
+          }
 
-          mysql.pool.query(
-          'UPDATE Evolutions SET from_poke= "' + data.evolves_from + '" WHERE to_poke = "' + data.id + '";', 
-          function(err, rows, fields){
-            if (err) return callback(422, err);
-            return callback(200, "Pokemon Updated successfully!");
-          });
+          else {
+            mysql.pool.query(
+            'INSERT INTO Evolutions (to_poke, from_poke) VALUES("' + data.evolves_to + '", "' + data.id +  '");', 
+            function(err, rows, fields){
+              if (err) console.log(err);
+            });
+          }
         });
       }
-      else if (data.evolves_to) {
-        mysql.pool.query(
-          'UPDATE Evolutions SET to_poke= "' + data.evolves_to + '" WHERE from_poke = "' + data.id + '";', 
-          function(err, rows, fields){
-          if (err) return callback(422, err);
-          return callback(200, "Pokemon Updated successfully!");
-        });
-      }
+
       else {
-        mysql.pool.query(
-        'UPDATE Evolutions SET from_poke= "' + data.evolves_from + '" WHERE to_poke = "' + data.id + '";', 
-        function(err, rows, fields){
-          if (err) return callback(422, err);
-          return callback(200, "Pokemon Updated successfully!");
+        console.log("this code is hit");
+        mysql.pool.query('DELETE FROM Evolutions WHERE to_poke="' + data.id + '";', 
+        function(err, rows, fields) {
+          if (err) console.log(err);
         });
       }
+
+      if (data.evolves_from) {
+        mysql.pool.query('SELECT to_poke FROM Evolutions', function(err, to_pokes, fields) {
+          var exists = false;
+          for (var i = 0; i < to_pokes.length; i++) {
+            if (to_pokes[i].to_poke == data.id) exists = true
+          }
+
+          if (exists) {
+            console.log('Already exists');
+            mysql.pool.query(
+            'UPDATE Evolutions SET from_poke= "' + data.evolves_from + '" WHERE to_poke = "' + data.id + '";', 
+            function(err, rows, fields){
+              if (err) console.log(err);
+            });
+          }
+          else {
+            console.log('Does not exist');
+            mysql.pool.query(
+            'INSERT INTO Evolutions (to_poke, from_poke) VALUES("' + data.id + '", "' + data.evolves_from + '");', 
+            function(err, rows, fields){
+              if (err) console.log(err);
+            });
+          }
+        });
+      }
+
+      else {
+        mysql.pool.query('DELETE FROM Evolutions WHERE from_poke="' + data.id + '";', 
+        function(err, rows, fields) {
+          if (err) console.log(err);
+        });
+      }
+      return callback(200, "Pokemon successfully updated!");
     });
   });
 }

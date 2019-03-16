@@ -18,7 +18,6 @@ function upperFirstChar(string) {
   string = string.trim();
   return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
 }
-
 function upperEveryFirstChar(string) {
 
   var arr = string.split(" ")
@@ -85,7 +84,7 @@ function bindCtrlBtns() {
 }
 
 function bindPokeUpdateBtn() {
- let container = document.getElementById("container-poke");
+  let container = document.getElementById("container-poke");
   container.querySelector("button").addEventListener("click", function(event) {
     let payload = {
       action: "pokemon", 
@@ -190,8 +189,6 @@ function locationSelection() {
     }
   });
 }
-
-
 
 function moveSelection() {
   document.getElementById("move-id").addEventListener("change", function() {
