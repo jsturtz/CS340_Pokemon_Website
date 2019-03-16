@@ -46,21 +46,26 @@
           data in the database. It will display them according to entity
           type: pokemon, type, moves, and location. In addition, it will
           display pokemon together with their types, their moves, and the
-          locations in which they can be found. 
+          locations in which they can be found. The Pokemon sub-page allows
+          users to sort Pokemon by name or stats in ascending or descending
+          order.
         </li>
         <li class="list-group-item"> 
           <a href="/update"><strong>Update</strong></a> <br>
           This link provides the user with the ability to update existing
-          entries. As of right now, the update buttons have not been 
-          implemented. This is because such code will become superfluous
-          when integrated with the backend. 
+          entries. As of right now, the update functionality is limited.
+          The attributes of any of the four entities can be updated.
+          The only relation that can be updated as of right now is the
+          evolutions found on the Pokemon subpage. 
         </li>
         <li class="list-group-item"> 
           <a href="/delete"><strong>Delete</strong></a> <br>
           This link provides the user with the ability to delete
-          entries. As of right now, the delete buttons have not been 
-          implemented. This is because such code will become superfluous
-          when integrated with the backend. 
+          entries. As of right now, the delete functionality is limited.
+          It permits users to delete any existing entities, which will
+          cascade automatically to entries in other tables with foreign
+          key references to that entity. The only relation that can be
+          deleted are the relations between evolutions. 
         </li>
       </ul>
     </div>

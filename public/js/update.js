@@ -10,6 +10,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
   moveSelection();
 });
 
+function getPageData() {
+  return JSON.parse(document.getElementById("data").textContent);
+}
+
 function upperFirstChar(string) {
   string = string.trim();
   return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
@@ -83,15 +87,17 @@ function bindCtrlBtns() {
 function bindPokeUpdateBtn() {
  let container = document.getElementById("container-poke");
   container.querySelector("button").addEventListener("click", function(event) {
-  console.log('this code is hit');
     let payload = {
       action: "pokemon", 
       id: document.getElementById("poke-id").value, 
       name: upperEveryFirstChar(document.getElementById("poke-name").value), 
-      health: upperEveryFirstChar(document.getElementById("poke-health").value), 
-      attack: upperEveryFirstChar(document.getElementById("poke-attack").value), 
-      defense: upperEveryFirstChar(document.getElementById("poke-defense").value), 
-      speed: upperEveryFirstChar(document.getElementById("poke-speed").value)
+      health: document.getElementById("poke-health").value, 
+      attack: document.getElementById("poke-attack").value, 
+      defense: document.getElementById("poke-defense").value, 
+      speed: document.getElementById("poke-speed").value, 
+      description: upperFirstChar(document.getElementById("poke-description").value),
+      evolves_from: document.getElementById("evolves-from").value,
+      evolves_to: document.getElementById("evolves-to").value
     };
     console.log(payload);
     post(payload);
@@ -103,13 +109,11 @@ function bindPokeUpdateBtn() {
 function bindTypeUpdateBtn() {
  let container = document.getElementById("container-type");
   container.querySelector("button").addEventListener("click", function(event) {
-  console.log('this code is hit');
     let payload = {
       action: "type", 
       id: document.getElementById("type-id").value, 
       name: upperEveryFirstChar(document.getElementById("type-name").value)
     };
-    console.log(payload);
     post(payload);
     event.preventDefault;
  });
@@ -124,7 +128,6 @@ function bindMoveUpdateBtn() {
       name: upperEveryFirstChar(document.getElementById("move-name").value), 
       status_effect: document.getElementById("move-status").value
     };
-    console.log(payload);
     post(payload);
     event.preventDefault;
  });
@@ -144,27 +147,29 @@ function bindLocationUpdateBtn() {
  });
 }
 
-
-
 function pokemonSelection() {
   document.getElementById("poke-id").addEventListener("change", function() {
     let container = document.getElementById("container-poke");
     let id = document.getElementById("poke-id").value;
-    let name = document.getElementById("poke-name");
-    let health = document.getElementById("poke-health");
-    let attack = document.getElementById("poke-attack");
-    let defense = document.getElementById("poke-defense");
-    let speed = document.getElementById("poke-speed");
-    let description = document.getElementById("poke-description");
-    let rows = container.querySelectorAll("div.poke");
-    for (let i = 0; i < rows.length; i++) {
-      if (rows[i].getAttribute("value") == id) {
-        name.value = rows[i].querySelector(".poke-name").getAttribute("value");
-        health.value = rows[i].querySelector(".health").value; 
-        attack.value = rows[i].querySelector(".attack").value; 
-        defense.value = rows[i].querySelector(".defense").value; 
-        speed.value = rows[i].querySelector(".speed").value; 
-        description.innerHTML = rows[i].querySelector(".description").value;
+    let evolves_from = document.getElementById("poke-evolves-from");
+    let evolves_to = document.getElementById("poke-evolves-to");
+    let data = getPageData();
+    let poke = data.pokemon;
+
+    for (let i = 0; i < poke.length; i++) {
+      if (poke[i].id == id) {
+        document.getElementById("poke-name").value = poke[i].name; 
+        document.getElementById("poke-health").value = poke[i].health; 
+        document.getElementById("poke-attack").value = poke[i].attack; 
+        document.getElementById("poke-defense").value = poke[i].defense; 
+        document.getElementById("poke-speed").value = poke[i].speed; 
+        document.getElementById("poke-description").value = poke[i].description; 
+        if (poke[i].evolves_from) {
+          document.getElementById("evolves-from").value = poke[i].evolves_from.id; 
+        }
+        if (poke[i].evolves_to) {
+          document.getElementById("evolves-to").value = poke[i].evolves_to.id; 
+        }
       }
     }
   });
@@ -186,6 +191,8 @@ function locationSelection() {
   });
 }
 
+
+
 function moveSelection() {
   document.getElementById("move-id").addEventListener("change", function() {
     let container = document.getElementById("container-move");
@@ -202,37 +209,3 @@ function moveSelection() {
     }
   });
 }
-
-// function bindTogglePoke() {
-//   // controls toggling of change forms
-//   let onToggles = document.getElementsByClassName("toggle-on");
-//   for (let i = 0; i < onToggles.length; i++) {
-//     let btn = onToggles[i]
-//     btn.addEventListener("click", function(event) {
-//       // hide first div "poke-display" found before this element
-//       let toHide = btn.parentNode.parentNode;
-//       toHide.setAttribute("style", "display:none;"); 
-
-//       // un-hide first div "add-form" found after this element
-//       let toDisplay = toHide.nextElementSibling;
-//       toDisplay.setAttribute("style", "display:block;");
-//     });
-//   }
-// }
-
-// function bindToggleType() {
-//   let btns = document.getElementsByClassName("type-btn");
-//   for (let i = 0; i < btns.length; i++) {
-//     btns[i].addEventListener("click", function(event) {
-//       let weakCol = btns[i].parentElement.previousElementSibling;
-//       let strongCol = weakCol.previousElementSibling;
-//       let changeForm = document.getElementById("type-change");
-//       changeForm.style = "display:block;";
-//       weakCol.innerHTML = changeForm.outerHTML;
-//       strongCol.innerHTML = changeForm.outerHTML;
-//       weakCol.value = weakVal;
-//       strongCol.value = strongVal;
-//     });
-//   }
-// }
-    

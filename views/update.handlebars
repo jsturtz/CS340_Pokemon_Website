@@ -1,6 +1,5 @@
 <!-- controls which add form to use-->
-<div class="container">
-  <div class="row">
+<div class="container"> <div class="row">
     <div class="col-sm-3">
       <button type="button" class="btn btn-secondary" id="btn-poke"> Pokemon </button>
     </div>
@@ -23,6 +22,7 @@
     <div class="col-sm-12">
       Chooose Pokemon to Change: 
       <select id="poke-id"> 
+        <option selected> None </option>
         {{#each pokemon}}
         <option value="{{this.id}}"> {{this.name}} </option>
         {{/each}}
@@ -48,6 +48,35 @@
         <textarea id="poke-description" class="form-control" style='min-width:100%'> </textarea> 
       </div>
     </div>
+
+    <div class="col-sm-6">
+      <table class="table">
+        <tbody>
+          <tr>
+            <td> Evolves From: </td>
+            <td>
+              <select id="evolves-from"> 
+                <option class="dropdown-item" value=""> None </option>
+                {{#each pokemon}}
+                <option class="dropdown-item" value = "{{this.id}}"> {{this.name}} </option>
+                {{/each}}
+             </select> </br>
+            </td>
+          </tr>
+          <tr>
+            <td> Evolves To: </td>
+            <td>
+              <select id="evolves-to"> 
+                <option class="dropdown-item" value=""> None </option>
+                {{#each pokemon}}
+                <option class="dropdown-item" value = "{{this.id}}"> {{this.name}} </option>
+                {{/each}}
+              </select> </br>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 
   <div class="row">
@@ -57,60 +86,85 @@
   </div>
 
   {{#each pokemon}}
-  <div value="{{this.id}}" class="poke row striped">
+  <div class="row striped">
     <div class="col-sm-12">
-      <span class="poke-name" value="{{this.name}}"> <strong>{{this.name}}</strong> </span>
+      <span class="poke-header"> 
+        <strong>{{this.name}}</strong>
+        {{#if this.description}}
+          - {{this.description}}
+        {{/if}}
+      </span>
+    </div>
+    <div class="col-sm-6">
+      <span class="poke-header"> Evolutions </span>
+      <ul>
+        <li> 
+          {{#if this.evolves_from}}
+          Evolves from <em> {{this.evolves_from.name}}</em>
+          {{else}}
+            No evolution from another Pokemon
+          {{/if}} </br>
+        </li>
+        <li>
+          {{#if this.evolves_to}}
+          Evolves to <em>{{this.evolves_to.name}}</em>
+          {{else}}
+            Does not evolve to another Pokemon
+          {{/if}}
+        </li>
+      </ul>
+    </div>
+
+    <div class="col-sm-6">
+      <span class="poke-header"> Types </span>
+      <ul>
+          {{#each this.types}}
+          <li> <em> {{this}}</em> </li>
+          {{else}}
+
+          <li> <em> No types</em> </li>
+          {{/each}} 
+      </ul>
     </div>
 
     <!-- Statistics and Evolutions here-->
-    <div class="col-sm-3">
+    <div class="col-sm-4">
       <span class="poke-header"> Statistics </span>
-      <ul class="poke-stats">
-        <li class="health" value="{{this.health}}"> Health: {{this.health}}</li>
-        <li class="attack" value="{{this.attack}}"> Attack: {{this.attack}}</li>
-        <li class="defense" value="{{this.defense}}"> Defense: {{this.defense}}</li>
-        <li class="speed" value="{{this.speed}}"> Speed: {{this.speed}}</li>
-        <li class="description" value="{{this.description}}"></li>
-        <li value="{{this.evolves_from}}"> Evolves from: {{this.evolves_from}} </li>
-        <li value="{{this.evolves_to}}"> Evolves to: {{this.evolves_to}} </li>
-	<li value="{{this.description}}"> Description: {{this.description}} </li>
+      <ul>
+        <li> Attack: {{this.attack}}</li>
+        <li> Defense: {{this.defense}}</li>
+        <li> Health: {{this.health}}</li>
+        <li> Speed: {{this.speed}}</li>
       </ul>
     </div>
 
-    <!-- Types go here-->
-    <div class="col-sm-3">
-      <!---<img class= "img-fluid" src="images/charizard.png" style="width:250px">-->
-      <span class="poke-header"> Types </span>
-      <ul class="type-list">
-      {{#each types}}
-        <li> {{this}}</li>
-      {{/each}}
-      </ul>
-    </div>
 
     <!-- Moves go here-->
-    <div class="col-sm-3">
+    <div class="col-sm-4">
       <span class="poke-header"> Moves </span>
       <ul>
         {{#each moves}}
-        <li> {{this.name}} -- {{this.level}} </li>
+        <li> <em> {{this.name}} -- {{this.level}}</em> </li>
+        {{else}}
+        <li> <em> No Moves </em> </li>
         {{/each}}
       </ul>
     </div>
 
     <!-- Locations go here-->
-    <div class="col-sm-3">
+    <div class="col-sm-4">
       <span class="poke-header"> Locations </span>
       <ul>
         {{#each locations}}
-          <li> {{this}} </li>
+        <li> <em> {{this}} </em> </li>
+        {{else}}
+        <li> <em> Not found in any location </em> </li>
         {{/each}}
       </ul>
     </div>
   </div>
   {{/each}}
 </div>
-
 <!-- Type information here -->
 <div id="container-type" class="container change-form"style="display:none;">
 
@@ -282,5 +336,7 @@
     </div>
   </div>
 </div>
+
+<div id="data" style="display:none;"> {{{json @root}}} </div>
 
 <script src="js/update.js"></script>

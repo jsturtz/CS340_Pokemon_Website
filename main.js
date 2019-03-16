@@ -8,9 +8,14 @@ var express = require('express');
 var app = express();
       
 // import handlebars and bodyParser
-var handlebars = require('express-handlebars').create({defaultLayout:'main'});
-app.engine('handlebars', handlebars.engine);
+var handlebars = require('express-handlebars');
 app.set('port', 3391);
+
+app.engine('handlebars', handlebars({
+  defaultLayout: "main",
+  helpers: require("./public/js/helpers.js").helpers,
+}));
+
 app.set('view engine', 'handlebars');
 
 // tells app to either use urlencoded or json depending on what it parses
@@ -41,7 +46,9 @@ app.get('/read',function(req,res){
     context.title_description = "See the Contents of the Database";
     context.sortCol = req.query.col;
     context.sortBy = req.query.sortBy;
-    console.log(context);
+    for (var i = 0; i < context.pokemon.length; i++) {
+      console.log(context.pokemon[i].evolves_from);
+    }
     res.render('read', context);
   });
 });
@@ -50,7 +57,6 @@ app.get('/update',function(req,res){
   getPageInfo(req.query.col, req.query.sortBy, function(context) {
     context.title = "Update";
     context.title_description = "Update Entities in the Database";
-    console.log(context);
     res.render('update', context);
   });
 });
@@ -66,14 +72,16 @@ app.get('/delete',function(req,res){
 app.post('/update', function(req, res) {
   switch(req.body.action) {
     case "pokemon":
-      updatePoke(
-        req.body.id,
-        req.body.name, 
-        req.body.health,
-        req.body.attack,
-        req.body.defense,
-        req.body.speed,
-        function(code, message) {
+      updatePoke({
+        id: req.body.id, 
+        name: req.body.name,
+        health: req.body.health,
+        attack: req.body.attack,
+        defense: req.body.defense,
+        speed: req.body.speed,
+        evolves_from: req.body.evolves_from,
+        evolves_to: req.body.evolves_to
+        }, function(code, message) {
         res.status(code).send(message); 
       });
       break;
@@ -190,20 +198,70 @@ app.post('/create', function(req, res) {
   }
 });
 
-function updatePoke(id, name, health, attack, defense, speed, callback) {
-  if ((name == "") || (health == "") || (attack =="") || (defense =="") || (speed ==""))
-  return callback(200, "Please fill out all values!");
-  console.log("health: " + health);
+function updatePoke(data, callback) {
+  if ((data.name == "") || (data.health == "") || (data.attack =="") || (data.defense =="") || (data.speed ==""))
+  return callback(422, "Please fill out all values!");
 
-  if ((health < 0) || (attack < 0) || (defense < 0) || (speed < 0))
-  return callback(200, "Please enter positve values for stats");
+  if ((data.health < 0) || (data.attack < 0) || (data.defense < 0) || (data.speed < 0))
+  return callback(422, "Please enter positive values for stats");
+  
+  if (data.id == data.evolves_from) return callback(422, "Pokemon cannot evolve from itself");
+  if (data.id == data.evolves_to) return callback(422, "Pokemon cannot evolve to itself");
 
-  mysql.pool.query(
-  'UPDATE Pokemon SET name= "' + name + '" , health= "' + health + '" , attack = ' + attack +
-  ', defense = ' + defense + ', speed = ' + speed + ' WHERE id = ' + id + ';',
-  function(err, rows, fields) {
+  // guarantees that one cannot update a pokemon to evolve to a pokemon that already has an evolution-from
+  mysql.pool.query('SELECT * FROM Evolutions', function(err, evos, fields) {
     if (err) return callback(422, err);
-    return callback(200, "Pokemon Updated successfully!");
+    for (var i = 0; i < evos.length; i++) {
+      if ((evos[i].to_poke == data.evolves_to) && (data.id != evos[i].from_poke)) {
+        return callback(422, "That pokemon already has another pokemon from which it evolves");
+      }
+    }
+
+    mysql.pool.query(
+    'UPDATE Pokemon SET name= "' + data.name + '" , health= "' + data.health + '" , attack = ' + data.attack +
+    ', defense = ' + data.defense + ', speed = ' + data.speed + ' WHERE id = ' + data.id + ';',
+    function(err, rows, fields) {
+      console.log('reaches this point');
+      if (err) return callback(422, err);
+      
+      if (!data.evolves_to && !data.evolves_from) {
+        console.log('both are false');
+        return callback(200, "Pokemon Updated Successfully!");
+      }
+
+      // this is repetitive because I suck at asynchronous callback hell
+      if (data.evolves_to && data.evolves_from) {
+        console.log('both are true');
+        mysql.pool.query(
+          'UPDATE Evolutions SET to_poke= "' + data.evolves_to + '" WHERE from_poke = "' + data.id + '";', 
+          function(err, rows, fields){
+          if (err) return callback(422, err);
+
+          mysql.pool.query(
+          'UPDATE Evolutions SET from_poke= "' + data.evolves_from + '" WHERE to_poke = "' + data.id + '";', 
+          function(err, rows, fields){
+            if (err) return callback(422, err);
+            return callback(200, "Pokemon Updated successfully!");
+          });
+        });
+      }
+      else if (data.evolves_to) {
+        mysql.pool.query(
+          'UPDATE Evolutions SET to_poke= "' + data.evolves_to + '" WHERE from_poke = "' + data.id + '";', 
+          function(err, rows, fields){
+          if (err) return callback(422, err);
+          return callback(200, "Pokemon Updated successfully!");
+        });
+      }
+      else {
+        mysql.pool.query(
+        'UPDATE Evolutions SET from_poke= "' + data.evolves_from + '" WHERE to_poke = "' + data.id + '";', 
+        function(err, rows, fields){
+          if (err) return callback(422, err);
+          return callback(200, "Pokemon Updated successfully!");
+        });
+      }
+    });
   });
 }
 
@@ -297,12 +355,12 @@ function delete_Location(locationName, callback) {
 // an object with two fields: id and level. 
 function addPokemon(D, callback) {
   if ((D.attack < 0) || (D.health < 1) || (D.speed < 0) || (D.defense < 0))
-   return callback(200, "Please enter positive values for stats!"); 
+   return callback(422, "Please enter positive values for stats!"); 
 
   for (var i = 0; i < D.moves.length; i++)
   {
     if (D.moves[i].level < 0)
-     return callback(200, "Move Levels cannot be negative!");
+     return callback(422, "Move Levels cannot be negative!");
   }
 
 // make sure name is unique
@@ -344,7 +402,18 @@ function addPokemon(D, callback) {
         for (var i = 0; i < D.moves.length; i++) {
           mysql.pool.query(
             'INSERT INTO Pokemon_Moves (poke_id, move_id, level) ' + 
-            'VALUES("' + id + '", "' + D.moves[i].id + '", "' + D.moves.level + '");', 
+            'VALUES("' + id + '", "' + D.moves[i].id + '", "' + D.moves[i].level + '");', 
+            function(err, rows, fields) {
+            if (err) return callback(422, err);
+          });
+        }
+
+        // add pokemon moves
+        console.log(D);
+        for (var i = 0; i < D.locations.length; i++) {
+          mysql.pool.query(
+            'INSERT INTO Pokemon_Locations (poke_id, location_id) ' + 
+            'VALUES("' + id + '", "' + D.locations[i] + '");', 
             function(err, rows, fields) {
             if (err) return callback(422, err);
           });
@@ -517,43 +586,35 @@ function getPokemon(callback) {
     'SELECT p.id, l.name FROM Locations l ' + 
     'INNER JOIN Pokemon_Locations pl ON l.id = pl.location_id ' + 
     'INNER JOIN Pokemon p ON pl.poke_id = p.id;';
-  var getToEvolutions = 
-    'SELECT DISTINCT p.id, t.name ' +
+  var getFromEvolutions = 
+    'SELECT DISTINCT p.id, t.name, t.id AS "from_id"' +
     'From Pokemon p ' +
     'INNER JOIN Pokemon t ' +
     'INNER JOIN Evolutions e ON e.from_poke=t.id AND p.id=e.to_poke;';
-  var getFromEvolutions = 
-    'SELECT DISTINCT p.id, f.name ' + 
+  var getToEvolutions = 'SELECT DISTINCT p.id, f.name, f.id AS "to_id"' + 
     'From Pokemon p ' + 
     'INNER JOIN Pokemon f ' + 
     'INNER JOIN Evolutions e ON e.to_poke=f.id AND p.id=from_poke;';
-  mysql.pool.query(getIds, function(err, rows, fields) {
+  mysql.pool.query(getIds, function(err, ids, fields) {
     if (err) throw "ERROR: " + err 
-    var ids = rows
 
-    mysql.pool.query(getPokeInfo, function(err, rows, fields) {
+    mysql.pool.query(getPokeInfo, function(err, pokeInfo, fields) {
       if (err) throw "ERROR: " + err 
-      var pokeInfo = rows
 
-      mysql.pool.query(getPokeTypes, function(err, rows, fields) {
+      mysql.pool.query(getPokeTypes, function(err, types, fields) {
         if (err) throw "ERROR: " + err 
-        var types = rows
 
-        mysql.pool.query(getPokeMoves, function(err, rows, fields) {
+        mysql.pool.query(getPokeMoves, function(err, moves, fields) {
           if (err) throw "ERROR: " + err 
-          var moves = rows
 
-          mysql.pool.query(getPokeLocations, function(err, rows, fields) {
+          mysql.pool.query(getPokeLocations, function(err, locations, fields) {
             if (err) throw "ERROR: " + err 
-            var locations = rows
 
-            mysql.pool.query(getToEvolutions, function(err, rows, fields) {
+            mysql.pool.query(getToEvolutions, function(err, evoTo, fields) {
               if (err) throw "ERROR: " + err 
-              var evoTo = rows
 
-              mysql.pool.query(getFromEvolutions, function(err, rows, fields) {
+              mysql.pool.query(getFromEvolutions, function(err, evoFrom, fields) {
                 if (err) throw "ERROR: " + err 
-                var evoFrom = rows
 
                 // create pokemon list along with moveSet
                 var pokemon = [];
@@ -569,8 +630,8 @@ function getPokemon(callback) {
                         health: pokeInfo[j].health,
                         speed: pokeInfo[j].speed,
                         description: pokeInfo[j].description,
-                        evolvesFrom: null, 
-                        evolvesTo: null,
+                        evolves_from: null, 
+                        evolves_to: null,
                         types: [], 
                         moves: [], 
                         locations: [], 
@@ -592,7 +653,6 @@ function getPokemon(callback) {
                       newPoke.moves.push(newMove);
                     }
                   }
-
                   for (var j = 0; j < locations.length; j++) {
                     if (locations[j].id == ids[i].id) {
                       newPoke.locations.push(locations[j].name);
@@ -600,12 +660,12 @@ function getPokemon(callback) {
                   }
                   for (var j = 0; j < evoFrom.length; j++) {
                     if (evoFrom[j].id == ids[i].id) {
-                      newPoke.evolves_from = evoFrom[j].name;
+                      newPoke.evolves_from = {id: evoFrom[j].from_id, name: evoFrom[j].name};
                     }
                   }
                   for (var j = 0; j < evoTo.length; j++) {
                     if (evoTo[j].id == ids[i].id) {
-                      newPoke.evolves_to = evoTo[j].name;
+                      newPoke.evolves_to = {id: evoTo[j].to_id, name: evoTo[j].name};
                     }
                   }
                   pokemon.push(newPoke);

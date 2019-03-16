@@ -98,7 +98,6 @@ function bindTypeSubmit() {
 
     var relation = document.getElementById("relation").value;
     if (relation === "weak") {
-      console.log("Relation is indeed weak");
       var weak = document.getElementById("type1-relation").value; 
       var strong = document.getElementById("type2-relation").value; 
     }
@@ -211,6 +210,7 @@ function bindPokeSubmit() {
           evolves_to: evolves_to,
           evolves_from: evolves_from
         }
+        console.log(payload);
         post(payload);
       } else window.alert("Evolutions cannot be the same Pokemon");
     } else window.alert("Please fill out all fields in Stats");

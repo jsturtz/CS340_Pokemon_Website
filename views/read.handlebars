@@ -53,50 +53,76 @@
   {{#each pokemon}}
   <div class="row striped">
     <div class="col-sm-12">
-      <span class="poke-header"> <strong>{{this.name}}</strong> </span>
+      <span class="poke-header"> 
+        <strong>{{this.name}}</strong>
+        {{#if this.description}}
+          - {{this.description}}
+        {{/if}}
+      </span>
+    </div>
+    <div class="col-sm-6">
+      <span class="poke-header"> Evolutions </span>
+      <ul>
+        <li> 
+          {{#if this.evolves_from}}
+          Evolves from <em> {{this.evolves_from.name}}</em>
+          {{else}}
+            No evolution from another Pokemon
+          {{/if}} </br>
+        </li>
+        <li>
+          {{#if this.evolves_to}}
+          Evolves to <em>{{this.evolves_to.name}}</em>
+          {{else}}
+            No evolution to another Pokemon
+          {{/if}}
+        </li>
+      </ul>
     </div>
 
-    <!-- Statistics and Evolutions here-->
-    <div class="col-sm-3">
+    <div class="col-sm-6">
+      <span class="poke-header"> Types </span>
+      <ul>
+          {{#each this.types}}
+          <li> <em> {{this}}</em> </li>
+          {{else}}
+
+          <li> <em> No types</em> </li>
+          {{/each}} 
+      </ul>
+    </div>
+
+    <div class="col-sm-4">
       <span class="poke-header"> Statistics </span>
       <ul>
         <li> Attack: {{this.attack}}</li>
         <li> Defense: {{this.defense}}</li>
         <li> Health: {{this.health}}</li>
         <li> Speed: {{this.speed}}</li>
-        <li> Evolves from: {{this.evolves_from}} </li>
-        <li> Evolves to: {{this.evolves_to}} </li>
-	<li> Description: {{this.description}} </li>
       </ul>
     </div>
 
-    <!-- Types go here-->
-    <div class="col-sm-3">
-      <!---<img class= "img-fluid" src="images/charizard.png" style="width:250px">-->
-      <span class="poke-header"> Types </span>
-      <ul class="type-list">
-      {{#each types}}
-        <li> {{this}}</li>
-      {{/each}}
-      </ul>
-    </div>
 
     <!-- Moves go here-->
-    <div class="col-sm-3">
+    <div class="col-sm-4">
       <span class="poke-header"> Moves </span>
       <ul>
         {{#each moves}}
-        <li> {{this.name}} -- {{this.level}} </li>
+        <li> <em> {{this.name}} -- {{this.level}}</em> </li>
+        {{else}}
+        <li> <em> No Moves </em> </li>
         {{/each}}
       </ul>
     </div>
 
     <!-- Locations go here-->
-    <div class="col-sm-3">
+    <div class="col-sm-4">
       <span class="poke-header"> Locations </span>
       <ul>
         {{#each locations}}
-          <li> {{this}} </li>
+        <li> <em> {{this}} </em> </li>
+        {{else}}
+        <li> <em> Not found in any location </em> </li>
         {{/each}}
       </ul>
     </div>
