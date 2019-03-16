@@ -27,15 +27,6 @@ function upperEveryFirstChar(string) {
   return arr.join(" ");
 }
 
-function get() {
-    var req = new XMLHttpRequest();
-    req.open("GET", "/create", true);
-    req.addEventListener("load", function(event) {
-      if (req.status >= 200 && req.status < 400) return req.body;
-      else window.alert(req.responseText) 
-    });
-    req.send(); 
-}
 
 function post(payload) {
     var req = new XMLHttpRequest();
@@ -83,6 +74,7 @@ function bindCtrlBtns() {
   });
 }
 
+
 function bindPokeUpdateBtn() {
   let container = document.getElementById("container-poke");
   container.querySelector("button").addEventListener("click", function(event) {
@@ -98,9 +90,7 @@ function bindPokeUpdateBtn() {
       evolves_from: document.getElementById("evolves-from").value,
       evolves_to: document.getElementById("evolves-to").value
     };
-    console.log(payload);
     post(payload);
-    event.preventDefault;
  });
 
 }
@@ -114,7 +104,6 @@ function bindTypeUpdateBtn() {
       name: upperEveryFirstChar(document.getElementById("type-name").value)
     };
     post(payload);
-    event.preventDefault;
  });
 }
 
@@ -128,7 +117,6 @@ function bindMoveUpdateBtn() {
       status_effect: document.getElementById("move-status").value
     };
     post(payload);
-    event.preventDefault;
  });
 }
 
@@ -142,7 +130,6 @@ function bindLocationUpdateBtn() {
       description: document.getElementById("location-description").value
     };
     post(payload);
-    event.preventDefault;
  });
 }
 
@@ -180,11 +167,12 @@ function locationSelection() {
     let id = document.getElementById("location-id").value;
     let name = document.getElementById("location-name");
     let desc = document.getElementById("location-description");
-    let rows = container.querySelectorAll("tr");
-    for (let i = 0; i < rows.length; i++) {
-      if (rows[i].getAttribute("value") == id) {
-        name.value = rows[i].firstElementChild.textContent;
-        desc.value = rows[i].lastElementChild.textContent;
+    let data = getPageData();
+    let locations = data.locations;
+    for (let i = 0; i < locations.length; i++) {
+      if (locations[i].id == id) {
+        name.value = locations[i].name;
+        desc.value = locations[i].description;
       }
     }
   });
@@ -197,7 +185,6 @@ function moveSelection() {
     let name = document.getElementById("move-name");
     let effect = document.getElementById("move-status");
     let rows = container.querySelectorAll("tr");
-    console.log(rows);
     for (let i = 0; i < rows.length; i++) {
       if (rows[i].getAttribute("value") == id) {
         name.value = rows[i].firstElementChild.textContent;

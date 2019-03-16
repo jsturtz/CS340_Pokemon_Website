@@ -47,7 +47,6 @@ app.get('/read',function(req,res){
     context.sortCol = req.query.col;
     context.sortBy = req.query.sortBy;
     for (var i = 0; i < context.pokemon.length; i++) {
-      console.log(context.pokemon[i].evolves_from);
     }
     res.render('read', context);
   });
@@ -153,7 +152,6 @@ app.post('/create', function(req, res) {
   switch(req.body.action) {
     case "pokemon":
       addPokemon(req.body, function(code, message) {
-        console.log(message);
         res.status(code).send(message); 
       });
       break;
@@ -222,7 +220,6 @@ function updatePoke(data, callback) {
     'UPDATE Pokemon SET name= "' + data.name + '" , health= "' + data.health + '" , attack = ' + data.attack +
     ', defense = ' + data.defense + ', speed = ' + data.speed + ' WHERE id = ' + data.id + ';',
     function(err, rows, fields) {
-      console.log('reaches this point');
       if (err) return callback(422, err);
       
       if (data.evolves_to) {
@@ -236,7 +233,6 @@ function updatePoke(data, callback) {
             mysql.pool.query(
             'UPDATE Evolutions SET to_poke= "' + data.evolves_to + '" WHERE from_poke = "' + data.id + '";', 
             function(err, rows, fields){
-              if (err) console.log(err);
             });
           }
 
@@ -244,17 +240,14 @@ function updatePoke(data, callback) {
             mysql.pool.query(
             'INSERT INTO Evolutions (to_poke, from_poke) VALUES("' + data.evolves_to + '", "' + data.id +  '");', 
             function(err, rows, fields){
-              if (err) console.log(err);
             });
           }
         });
       }
 
       else {
-        console.log("this code is hit");
         mysql.pool.query('DELETE FROM Evolutions WHERE to_poke="' + data.id + '";', 
         function(err, rows, fields) {
-          if (err) console.log(err);
         });
       }
 
@@ -266,19 +259,15 @@ function updatePoke(data, callback) {
           }
 
           if (exists) {
-            console.log('Already exists');
             mysql.pool.query(
             'UPDATE Evolutions SET from_poke= "' + data.evolves_from + '" WHERE to_poke = "' + data.id + '";', 
             function(err, rows, fields){
-              if (err) console.log(err);
             });
           }
           else {
-            console.log('Does not exist');
             mysql.pool.query(
             'INSERT INTO Evolutions (to_poke, from_poke) VALUES("' + data.id + '", "' + data.evolves_from + '");', 
             function(err, rows, fields){
-              if (err) console.log(err);
             });
           }
         });
@@ -287,7 +276,6 @@ function updatePoke(data, callback) {
       else {
         mysql.pool.query('DELETE FROM Evolutions WHERE from_poke="' + data.id + '";', 
         function(err, rows, fields) {
-          if (err) console.log(err);
         });
       }
       return callback(200, "Pokemon successfully updated!");
@@ -354,7 +342,6 @@ function delete_Type(typeName, callback) {
 function delete_Move(moveName, callback) {
     if (moveName == "") return callback(200, "Please select a Move!");
 
-    console.log("The name value was: " + moveName);
     mysql.pool.query(
     'DELETE FROM Moves WHERE name ="' + moveName + '";',
     function(err, rows, fields) {
@@ -366,7 +353,6 @@ function delete_Move(moveName, callback) {
 function delete_Location(locationName, callback) {
   if (locationName == "") return callback(200, "Please select a Location!");
 
-  console.log("The name value was: " + locationName);
   mysql.pool.query(
     'DELETE FROM Locations WHERE name ="' + locationName + '";',
     function(err, rows, fields) {
@@ -439,7 +425,6 @@ function addPokemon(D, callback) {
         }
 
         // add pokemon moves
-        console.log(D);
         for (var i = 0; i < D.locations.length; i++) {
           mysql.pool.query(
             'INSERT INTO Pokemon_Locations (poke_id, location_id) ' + 
@@ -748,7 +733,6 @@ function getTypeRelations(callback) {
           for (let j = 0; j < weakRows.length; j++) {
             let weak_row = weakRows[j];
             if (row.id == weak_row.id) {
-              console.log({id: weak_row.weak_id, name: weak_row.weak_against});
               newType.weak_against.push({id: weak_row.weak_id, name: weak_row.weak_against});
             }
           }

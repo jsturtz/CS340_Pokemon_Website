@@ -56,20 +56,20 @@
           entries. As of right now, the update functionality is limited.
           The attributes of any of the four entities can be updated.
           The only relation that can be updated as of right now is the
-          evolutions found on the Pokemon subpage. 
+          evolutions found on the Pokemon subpage. This evolutions
+          update will perform UPDATE, INSERT, or DELETE depending on
+          how the users select the dropdown boxes for evolutions for
+          a given pokemon. 
         </li>
         <li class="list-group-item"> 
           <a href="/delete"><strong>Delete</strong></a> <br>
           This link provides the user with the ability to delete
           entries. As of right now, the delete functionality is limited.
-          It permits users to delete any existing entities, which will
+          It only permits users to delete any existing entities, which will
           cascade automatically to entries in other tables with foreign
-          key references to that entity. The only relation that can be
-          deleted are the relations between evolutions. 
+          key references to that entity. 
         </li>
       </ul>
     </div>
   </div>
 </div>
-
-<script src="js/read.js"></script>

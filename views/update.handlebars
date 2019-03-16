@@ -15,6 +15,7 @@
   </div>
 </div>
 
+<form>
 <!-- html for each pokemon looks like this -->
 <div id="container-poke" class="container poke-list change-form">
 
@@ -85,86 +86,8 @@
     </div>
   </div>
 
-  {{#each pokemon}}
-  <div class="row striped">
-    <div class="col-sm-12">
-      <span class="poke-header"> 
-        <strong>{{this.name}}</strong>
-        {{#if this.description}}
-          - {{this.description}}
-        {{/if}}
-      </span>
-    </div>
-    <div class="col-sm-6">
-      <span class="poke-header"> Evolutions </span>
-      <ul>
-        <li> 
-          {{#if this.evolves_from}}
-          Evolves from <em> {{this.evolves_from.name}}</em>
-          {{else}}
-            No evolution from another Pokemon
-          {{/if}} </br>
-        </li>
-        <li>
-          {{#if this.evolves_to}}
-          Evolves to <em>{{this.evolves_to.name}}</em>
-          {{else}}
-            Does not evolve to another Pokemon
-          {{/if}}
-        </li>
-      </ul>
-    </div>
-
-    <div class="col-sm-6">
-      <span class="poke-header"> Types </span>
-      <ul>
-          {{#each this.types}}
-          <li> <em> {{this}}</em> </li>
-          {{else}}
-
-          <li> <em> No types</em> </li>
-          {{/each}} 
-      </ul>
-    </div>
-
-    <!-- Statistics and Evolutions here-->
-    <div class="col-sm-4">
-      <span class="poke-header"> Statistics </span>
-      <ul>
-        <li> Attack: {{this.attack}}</li>
-        <li> Defense: {{this.defense}}</li>
-        <li> Health: {{this.health}}</li>
-        <li> Speed: {{this.speed}}</li>
-      </ul>
-    </div>
-
-
-    <!-- Moves go here-->
-    <div class="col-sm-4">
-      <span class="poke-header"> Moves </span>
-      <ul>
-        {{#each moves}}
-        <li> <em> {{this.name}} -- {{this.level}}</em> </li>
-        {{else}}
-        <li> <em> No Moves </em> </li>
-        {{/each}}
-      </ul>
-    </div>
-
-    <!-- Locations go here-->
-    <div class="col-sm-4">
-      <span class="poke-header"> Locations </span>
-      <ul>
-        {{#each locations}}
-        <li> <em> {{this}} </em> </li>
-        {{else}}
-        <li> <em> Not found in any location </em> </li>
-        {{/each}}
-      </ul>
-    </div>
-  </div>
-  {{/each}}
 </div>
+
 <!-- Type information here -->
 <div id="container-type" class="container change-form"style="display:none;">
 
@@ -336,7 +259,7 @@
     </div>
   </div>
 </div>
-
+</form>
 <div id="data" style="display:none;"> {{{json @root}}} </div>
 
 <script src="js/update.js"></script>

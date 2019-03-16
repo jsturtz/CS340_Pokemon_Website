@@ -21,15 +21,6 @@ function upperEveryFirstChar(string) {
   return arr.join(" ");
 }
 
-function get() {
-    var req = new XMLHttpRequest();
-    req.open("GET", "/delete", true);
-    req.addEventListener("load", function(event) {
-      if (req.status >= 200 && req.status < 400) return req.body;
-      else window.alert(req.responseText) 
-    });
-    req.send(); 
-}
 
 function post(payload) {
   var req = new XMLHttpRequest();
@@ -78,6 +69,25 @@ function ctrlBtns() {
   });
 }    
 
+// function get(callback) {
+//   var req = new XMLHttpRequest();
+//   req.open("GET", "/delete", true);
+//   req.addEventListener("load", function(event) {
+//     if (req.status >= 200 && req.status < 400) 
+//       return callback(req.responseText);
+//     else window.alert(req.responseText) 
+//   });
+//   req.send(); 
+// }
+
+// function refresh() {
+//   get(function(html) {
+//     var body = html.substring(html.indexOf("<body>")+6, html.indexOf("</body>"));
+//     var temp = document.createElement("div");
+//     document.body.innerHTML = body.trim();
+//   });
+// }
+
 function bindPokeDelete() {
   document.getElementById("deletePoke").addEventListener("click", function(event) {
   var payload = {
@@ -85,7 +95,6 @@ function bindPokeDelete() {
     name: document.getElementById("deletePokeDrop").value 
   };
   post(payload);
-  event.preventDefault;
   });
 }
 
@@ -96,7 +105,6 @@ function bindTypeDelete() {
     name: document.getElementById("deleteTypeDrop").value
   };
   post(payload);
-  event.preventDefault;
   });
 }
 
@@ -107,7 +115,6 @@ function bindMoveDelete() {
     name: document.getElementById("deleteMoveDrop").value
   };
   post(payload);
-  event.preventDefault;
   });
 }
 
@@ -118,6 +125,5 @@ function bindLocationDelete() {
     name: document.getElementById("deleteLocationDrop").value
   };
   post(payload);
-  event.preventDefault;
   });
 }

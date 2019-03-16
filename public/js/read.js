@@ -4,11 +4,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
     dropDownBox();
 });
 
+
 function dropDownBox() {
   document.getElementById("sortBtn").addEventListener("click", function(event) {
     var url = "/read?col=" + document.getElementById("sort-dropdown").value;
     url += "&sortBy=" + document.getElementById("sortBy").value;
-    console.log(url);
     window.location.href = url;
   });
 }

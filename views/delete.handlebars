@@ -16,6 +16,7 @@
   </div>
 </div>
 
+<form>
 <!-- html for each pokemon looks like this -->
 <div id="container-poke" class="container poke-list change-form">
 
@@ -29,7 +30,7 @@
        <option class="dropdown-item" value = "{{this.name}}"> {{this.name}} </option>
        {{/each}} 
       </select> 
-      <button id="deletePoke" class="btn btn-primary">Delete</button>
+        <button id="deletePoke" class="btn btn-primary">Delete</button>
     </div>
   </div>
   
@@ -236,4 +237,5 @@
     </tbody>
   </table>
 </div>
+</form>
 <script src="js/delete.js"></script>
