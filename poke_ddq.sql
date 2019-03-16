@@ -1,3 +1,14 @@
+DROP TABLE IF EXISTS Types_Strength;
+DROP TABLE IF EXISTS Pokemon_Locations;
+DROP TABLE IF EXISTS Pokemon_Moves;
+DROP TABLE IF EXISTS Evolutions;
+DROP TABLE IF EXISTS Pokemon_Types;
+DROP TABLE IF EXISTS Pokemon;
+DROP TABLE IF EXISTS Types;
+DROP TABLE IF EXISTS Moves;
+DROP TABLE IF EXISTS Locations;
+
+
 CREATE TABLE Pokemon (
         id INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
         name VARCHAR(255) NOT NULL UNIQUE,
@@ -6,7 +17,6 @@ CREATE TABLE Pokemon (
         defense INT(11) NOT NULL,
         speed INT(11) NOT NULL,
         description VARCHAR(255) NOT NULL,
-        image LONGBLOB
 );
 
 CREATE TABLE Types (
@@ -34,7 +44,7 @@ CREATE TABLE Pokemon_Types (
 );
 
 CREATE TABLE Evolutions (
-        to_poke INT(11) NOT NULL,
+        to_poke INT(11) NOT NULL PRIMARY KEY,
         from_poke INT(11) NOT NULL,
         FOREIGN KEY(to_poke) REFERENCES Pokemon(id) ON DELETE CASCADE,
         FOREIGN KEY(from_poke) REFERENCES Pokemon(id) ON DELETE CASCADE
@@ -58,6 +68,7 @@ CREATE TABLE Pokemon_Locations (
 CREATE TABLE Types_Strength (
 	strong_id INT(11) NOT NULL,
 	weak_id INT(11) NOT NULL,
+	PRIMARY KEY (strong_id, weak_id),
 	FOREIGN KEY(strong_id) REFERENCES Types(id) ON DELETE CASCADE,
 	FOREIGN KEY(weak_id) REFERENCES Types(id) ON DELETE CASCADE
 );
